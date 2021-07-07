@@ -7,24 +7,25 @@ from codeFiles.tasks.task5 import task5
 
 import sys
 
+# ex_path = "/Users/abubakarkhawaja/Documents/weatherfiles/"
 
 def main():
     arguments = sys.argv
 
     if "-e" in arguments:
         print('\nTask 1:')
-        task1('/Users/abubakarkhawaja/Documents/weatherfiles/',arguments[arguments.index('-e')+1])
+        task1(arguments[1],arguments[arguments.index('-e')+1])
         print('\n')
     if "-a" in arguments:
         print('\nTask 2:')
-        task2('/Users/abubakarkhawaja/Documents/weatherfiles/',arguments[arguments.index('-a')+1])
+        task2(arguments[1],arguments[arguments.index('-a')+1])
         print('\n')
     if "-c" in arguments:
         print('\nTask 3:')
-        task3('/Users/abubakarkhawaja/Documents/weatherfiles/',arguments[arguments.index('-c')+1])
+        task3(arguments[1],arguments[arguments.index('-c')+1])
     if "-d" in arguments:
         print('\nTask 5:')
-        task5('/Users/abubakarkhawaja/Documents/weatherfiles/',arguments[arguments.index('-d')+1])
+        task5(arguments[1],arguments[arguments.index('-d')+1])
 
 if __name__ == "__main__":
     main()

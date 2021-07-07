@@ -1,0 +1,11 @@
+sample path = "/Users/abubakarkhawaja/Documents/weatherfiles/"
+
+Syntax:
+python3 weatherman.py /Users/[user]/[path]/[tofiles]/  -c  2011/03 -a 2011/3 -e 2011
+
+for example: 
+task1:    python3 weatherman.py /Users/abubakarkhawaja/Documents/weatherfiles/  -e  2011
+task2:    python3 weatherman.py /Users/abubakarkhawaja/Documents/weatherfiles/  -a  2011/03
+task3:    python3 weatherman.py /Users/abubakarkhawaja/Documents/weatherfiles/  -c  2011/03
+task4:    python3 weatherman.py /Users/abubakarkhawaja/Documents/weatherfiles/  -c  2011/03 -a 2011/3 -e 2011
+task5:    python3 weatherman.py /Users/abubakarkhawaja/Documents/weatherfiles/  -d  2011/03
