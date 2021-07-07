@@ -1,9 +1,9 @@
 # imported os to get list of file names in directory
 import os
-from tasks.utilities import MONTHS, getWeatherDic, getWeatherFiles
+from codeFiles.utilities import MONTHS,getWeatherDic, getWeatherFiles
 
 
-def task3 (path,date):
+def task5(path,date):
     directory = os.listdir(path)
     weatherfile = getWeatherFiles(date, directory)[0]        
     PATH = path+weatherfile
@@ -30,8 +30,7 @@ def task3 (path,date):
         40m = Background colour, 40 is for black.
         """
         day = key.split('-')[2]
-        print(day,f"\033[;31;40m{highBar}",f"\033[;;40m{highTemp}C")
-        print(day,f"\033[;34;40m{lowBar}",f"\033[;;40m{lowTemp}C")
+        print(day,f"\033[;34;40m{lowBar}\033[;31;40m{highBar}",f"\033[;;40m{lowTemp}C - \033[;;40m{highTemp}C")
     
 
 

@@ -1,7 +1,6 @@
 # imported os to get list of file names in directory
+from codeFiles.utilities import getWeatherDic, getWeatherFiles
 import os
-from tasks.utilities import MONTHS, getWeatherDic, getWeatherFiles
-
 
 def task2 (path,date):
     avg_highest_temp = float('-inf')
