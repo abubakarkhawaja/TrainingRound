@@ -29,8 +29,12 @@ def getWeatherDic (PATH):
                         weather_data[column_data[0]][key] = content.split(',')[k].strip()
     return weather_data
     
+    
+# imported os to get list of file names in directory
+import os
 
-def getWeatherFiles(date, directory):
+def getWeatherFiles(date, path):
+    directory = os.listdir(path)
     if '/' in date:
         month = MON[int(date.split('/')[1])]
         year = date.split('/')[0]
