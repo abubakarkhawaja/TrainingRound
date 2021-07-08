@@ -1,4 +1,4 @@
-from sourcecode.utilities import getWeatherDic, getWeatherFiles
+from sourcecode.utilities import get_Weather_Info, getWeatherFiles
 
 
 def task2 (path,date):
@@ -12,7 +12,7 @@ def task2 (path,date):
         print('No such record founnd')
     else:
         PATH = path+weatherfile[0]
-        weather_data = getWeatherDic(PATH)
+        weather_data = get_Weather_Info(PATH)
 
         # inititalization
         total_max_temp = 0

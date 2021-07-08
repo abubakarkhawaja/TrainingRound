@@ -1,4 +1,4 @@
-from sourcecode.utilities import getWeatherDic, getWeatherFiles, calendar
+from sourcecode.utilities import get_Weather_Info, getWeatherFiles, calendar
 
 
 def task3 (path,date):
@@ -8,7 +8,7 @@ def task3 (path,date):
         print('No such record founnd')
     else:
         PATH = path+weatherfile[0]        # [0] because only 1 file exist of specific month in whole year
-        weather_data = getWeatherDic(PATH)
+        weather_data = get_Weather_Info(PATH)
 
         # converting numerical month to alphabetical month with help of MONTHS list
         monthNumber = int(date.split('/')[1])

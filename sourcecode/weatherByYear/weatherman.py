@@ -1,4 +1,4 @@
-from sourcecode.utilities import getWeatherDic, getWeatherFiles, calendar
+from sourcecode.utilities import get_Weather_Info, getWeatherFiles, calendar
 
 
 def task1 (path,date):
@@ -17,8 +17,8 @@ def task1 (path,date):
     # traversing through all files of same year   
     for weatherfile in weatherFiles:
         # concating full path of a weatherfile
-        PATH = path+weatherfile
-        weather_data = getWeatherDic(PATH)
+        fullPath = path+weatherfile
+        weather_data = get_Weather_Info(fullPath)
 
         # Inititalization
         max_temp =  float('-inf')
@@ -34,7 +34,7 @@ def task1 (path,date):
             if temp > max_temp:
                 max_temp = temp
                 # saving date
-                monthNumber = int(date.split('/')[1])
+                monthNumber = int(key.split('-')[1])
                 month = calendar.month_name[monthNumber]
                 day = key.split('-')[2]
                 max_temp_date = month + " " + day
@@ -43,7 +43,7 @@ def task1 (path,date):
             if temp < min_temp:
                 min_temp = temp
                 # saving date
-                monthNumber = int(date.split('/')[1])
+                monthNumber = int(key.split('-')[1])
                 month = calendar.month_name[monthNumber]
                 day = key.split('-')[2]
                 min_temp_date = month + " " + day
@@ -52,7 +52,7 @@ def task1 (path,date):
             if humid > max_humid:
                 max_humid = humid
                 # saving date
-                monthNumber = int(date.split('/')[1])
+                monthNumber = int(key.split('-')[1])
                 month = calendar.month_name[monthNumber]
                 day = key.split('-')[2]
                 max_humid_date = month + " " + day
