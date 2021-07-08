@@ -1,4 +1,4 @@
-from sourcecode.utilities import MONTHS,getWeatherDic, getWeatherFiles
+from sourcecode.utilities import getWeatherDic, getWeatherFiles, calendar
 
 
 def task5(path,date):
@@ -11,7 +11,8 @@ def task5(path,date):
         PATH = path+weatherfile[0]         # [0] because only 1 file exist of specific month in whole year
         weather_data = getWeatherDic(PATH)
 
-        month = MONTHS[int(date.split('/')[1])]
+        monthNumber = int(date.split('/')[1])
+        month = calendar.month_name[monthNumber]
         year = date.split('/')[0]
         
         print(month,year)

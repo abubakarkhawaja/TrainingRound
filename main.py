@@ -1,4 +1,3 @@
-#to take command line argument
 import sys
 
 from sourcecode.weatherByYear.weatherman import task1

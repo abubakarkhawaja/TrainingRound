@@ -1,4 +1,4 @@
-from sourcecode.utilities import MONTHS,getWeatherDic, getWeatherFiles
+from sourcecode.utilities import getWeatherDic, getWeatherFiles, calendar
 
 
 def task3 (path,date):
@@ -11,7 +11,8 @@ def task3 (path,date):
         weather_data = getWeatherDic(PATH)
 
         # converting numerical month to alphabetical month with help of MONTHS list
-        month = MONTHS[int(date.split('/')[1])]
+        monthNumber = int(date.split('/')[1])
+        month = calendar.month_name[monthNumber]
         year = date.split('/')[0]
         
         print(month,year)

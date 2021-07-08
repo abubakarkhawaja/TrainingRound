@@ -1,8 +1,7 @@
-from sourcecode.utilities import MONTHS,getWeatherDic, getWeatherFiles
+from sourcecode.utilities import getWeatherDic, getWeatherFiles, calendar
 
 
 def task1 (path,date):
-
     #Inititalization
     highest_temp = float('-inf')
     highest_temp_date = ""
@@ -35,7 +34,8 @@ def task1 (path,date):
             if temp > max_temp:
                 max_temp = temp
                 # saving date
-                month = MONTHS[int(key.split('-')[1])]
+                monthNumber = int(date.split('/')[1])
+                month = calendar.month_name[monthNumber]
                 day = key.split('-')[2]
                 max_temp_date = month + " " + day
             
@@ -43,7 +43,8 @@ def task1 (path,date):
             if temp < min_temp:
                 min_temp = temp
                 # saving date
-                month = MONTHS[int(key.split('-')[1])]
+                monthNumber = int(date.split('/')[1])
+                month = calendar.month_name[monthNumber]
                 day = key.split('-')[2]
                 min_temp_date = month + " " + day
             
@@ -51,7 +52,8 @@ def task1 (path,date):
             if humid > max_humid:
                 max_humid = humid
                 # saving date
-                month = MONTHS[int(key.split('-')[1])]
+                monthNumber = int(date.split('/')[1])
+                month = calendar.month_name[monthNumber]
                 day = key.split('-')[2]
                 max_humid_date = month + " " + day
 
@@ -67,12 +69,6 @@ def task1 (path,date):
             humidity_date = max_humid_date
     
     # printing max/min value
-    print ('Highest:', f'{highest_temp}C on',highest_temp_date)
-    print('Lowest:', f'{lowest_temp}C on',lowest_temp_date)
-    print('Humidity:', f'{humidity}% on',humidity_date)
-
-
-
-
-
-
+    print (f'Highest: {highest_temp}C on {highest_temp_date}')
+    print(f'Lowest: {lowest_temp}C on {lowest_temp_date}')
+    print(f'Humidity: {humidity}% on {humidity_date}')
