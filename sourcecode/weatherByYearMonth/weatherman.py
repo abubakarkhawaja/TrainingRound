@@ -11,8 +11,8 @@ def task2 (path,date):
     if weatherfile == []:
         print('No such record founnd')
     else:
-        PATH = path+weatherfile[0]
-        weather_data = get_Weather_Info(PATH)
+        fullPath = path+weatherfile[0]
+        weather_data = get_Weather_Info(fullPath)
 
         # inititalization
         total_max_temp = 0

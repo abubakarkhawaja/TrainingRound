@@ -1,3 +1,4 @@
+from pandas.io.parsers import read_csv
 from sourcecode.utilities import get_Weather_Info, getWeatherFiles, calendar
 
 
@@ -7,8 +8,8 @@ def task3 (path,date):
     if weatherfile == []:
         print('No such record founnd')
     else:
-        PATH = path+weatherfile[0]        # [0] because only 1 file exist of specific month in whole year
-        weather_data = get_Weather_Info(PATH)
+        fullPath = path+weatherfile[0]        # [0] because only 1 file exist of specific month in whole year
+        weather_data = get_Weather_Info(fullPath)
 
         # converting numerical month to alphabetical month with help of MONTHS list
         monthNumber = int(date.split('/')[1])

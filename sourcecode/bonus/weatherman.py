@@ -8,8 +8,8 @@ def task5(path,date):
     if weatherfile == []:
         print('No such record founnd')
     else:
-        PATH = path+weatherfile[0]         # [0] because only 1 file exist of specific month in whole year
-        weather_data = get_Weather_Info(PATH)
+        fullPath = path+weatherfile[0]         # [0] because only 1 file exist of specific month in whole year
+        weather_data = get_Weather_Info(fullPath)
 
         monthNumber = int(date.split('/')[1])
         month = calendar.month_name[monthNumber]
