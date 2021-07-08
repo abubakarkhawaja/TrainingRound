@@ -35,4 +35,3 @@ def task2 (path,date):
         print (f'Highest Average: {round(avg_highest_temp)}C')
         print(f'Lowest Average:', f'{round(avg_lowest_temp)}C')
         print(f'Average Mean Humidity: {round(avg_mean_humidity)}%')
-        
