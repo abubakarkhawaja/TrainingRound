@@ -7,12 +7,11 @@ def get_Weather_Info(path):
     df = pd.read_csv(path)
     # cleaning
     df.columns = df.columns.str.strip()
+    df = df.set_index('PKT')
     df.dropna(subset = ['Max TemperatureC', 'Mean TemperatureC', 'Min TemperatureC', 
                         'Max Humidity', 'Mean Humidity', 'Min Humidity'], 
                         how='any', inplace=True)
-    df = df.set_index('PKT')
     # filling data in dictionary
-    weather_data = {}
     weather_data = {date : {column : df[column][date] for column in df.columns} for date in df.index.values}    
     return weather_data
 
