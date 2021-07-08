@@ -56,4 +56,3 @@ def getWeatherFiles(date, path):
     #                     weather_data[column_data[0]][key] = content.split(',')[k].strip()
     #     file.flush()
     # return weather_data
-              
