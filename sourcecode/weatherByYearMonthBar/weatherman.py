@@ -39,9 +39,3 @@ def task3 (path,date):
             print(day,f"\033[;31;40m{highBar}",f"\033[;;40m{highTemp}C")
             print(day,f"\033[;34;40m{lowBar}",f"\033[;;40m{lowTemp}C")
     
-
-
-
-
-
-
