@@ -20,11 +20,13 @@ def get_Weather_Info(path):
 def getWeatherFiles(date, path):
     directory = os.listdir(path)
     if '/' in date:
+        # It means year with month was given as command line argument
         monthNumber = int(date.split('/')[1])
         month = calendar.month_abbr[monthNumber]
         year = date.split('/')[0]
         weatherFiles = [dir for dir in directory if year in dir and month in dir]        
     else: 
+        # It means only year was given as command line argument
         weatherFiles = [dir for dir in directory if date in dir]
     return weatherFiles
 
