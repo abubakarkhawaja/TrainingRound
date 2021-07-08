@@ -2,23 +2,20 @@ import os
 import calendar
 import pandas as pd
 
+
 def get_Weather_Info(path):
     df = pd.read_csv(path)
     # cleaning
     df.columns = df.columns.str.strip()
     df.dropna(subset = ['Max TemperatureC', 'Mean TemperatureC', 'Min TemperatureC', 
-                            'Max Humidity', 'Mean Humidity', 'Min Humidity'], 
-                            how='any', inplace=True)
+                        'Max Humidity', 'Mean Humidity', 'Min Humidity'], 
+                        how='any', inplace=True)
     df = df.set_index('PKT')
     # filling data in dictionary
     weather_data = {}
-    weather_data = {date : {} for date in df.index.values}
-    
-    for date in df.index.values:
-        weather_data[date] = {column : df[column][date] for column in df.columns}     
-    # print(weather_data)
-    
+    weather_data = {date : {column : df[column][date] for column in df.columns} for date in df.index.values}    
     return weather_data
+
 
 def getWeatherFiles(date, path):
     directory = os.listdir(path)
@@ -30,6 +27,7 @@ def getWeatherFiles(date, path):
     else: 
         weatherFiles = [dir for dir in directory if date in dir]
     return weatherFiles
+
 
 # def get_Weather_Info(path):
     # weather_data = {}
