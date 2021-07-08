@@ -12,7 +12,7 @@ def get_Weather_Info(path):
     df = df.set_index('PKT')
     # filling data in dictionary
     weather_data = {}
-    weather_data = { column : '' for column in df.columns}
+    weather_data = {column : '' for column in df.columns}
     for column in df.columns:
         weather_data[column] = {date : df[column][date] for date in df.index.values}     
     # print(weather_data)
