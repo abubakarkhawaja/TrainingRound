@@ -10,8 +10,7 @@ def task1 (path,date):
     humidity = float('-inf')
     humidity_date = ""
 
-    # getting weatherfiles folder path
-    # filtering only those with which are needed according to date
+    # getting files name list
     weatherFiles = getWeatherFiles(date, path)     
 
     # traversing through all files of same year   

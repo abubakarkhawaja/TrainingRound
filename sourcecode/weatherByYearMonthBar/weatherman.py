@@ -3,7 +3,7 @@ from sourcecode.utilities import get_Weather_Info, getWeatherFiles, calendar
 
 
 def task3 (path,date):
-    # acquiring file name of required weather file of specific month
+    # acquiring file name
     weatherfile = getWeatherFiles(date, path)
     if weatherfile == []:
         print('No such record founnd')
@@ -37,5 +37,5 @@ def task3 (path,date):
                 31 = Text colour, 31 for red, 34 for blue.
                 40m = Background colour, 40 is for black.
             """
-            print(day,f"\033[;31;40m{highBar}",f"\033[;;40m{highTemp}C")
-            print(day,f"\033[;34;40m{lowBar}",f"\033[;;40m{lowTemp}C")
+            print(day, f"\033[;31;40m{highBar}", f"\033[;;40m{highTemp}C")
+            print(day, f"\033[;34;40m{lowBar}", f"\033[;;40m{lowTemp}C")
