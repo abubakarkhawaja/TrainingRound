@@ -1,11 +1,10 @@
-
 #to take command line argument
-from codeFiles.tasks.task1 import task1
-from codeFiles.tasks.task2 import task2
-from codeFiles.tasks.task3 import task3
-from codeFiles.tasks.task5 import task5
-
 import sys
+
+from sourcecode.weatherByYear.weatherman import task1
+from sourcecode.weatherByYearMonth.weatherman import task2
+from sourcecode.weatherByYearMonthBar.weatherman import task3
+from sourcecode.bonus.weatherman import task5 
 
 # ex_path = "/Users/abubakarkhawaja/Documents/weatherfiles/"
 
