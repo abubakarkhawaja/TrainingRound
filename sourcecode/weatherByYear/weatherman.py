@@ -1,7 +1,7 @@
 from sourcecode.utilities import get_Weather_Info, getWeatherFiles, calendar
 
 
-def task1 (path,date):
+def task1 (path: str, date: str):
     """
     Summary:
         Visits all files and prints Highest Temperature, Lowest Temperature

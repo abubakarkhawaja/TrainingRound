@@ -1,7 +1,7 @@
 from sourcecode.utilities import get_Weather_Info, getWeatherFiles
 
 
-def task2 (path,date):
+def task2 (path: str, date: str):
     """
     Summary:
         Visits all files and prints Average of High Temperatures, 

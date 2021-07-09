@@ -3,7 +3,7 @@ import calendar
 import pandas as pd
 
 
-def get_Weather_Info(path):
+def get_Weather_Info(path: str) -> dict[str, dict]:
     """
     Summary:
         Used to read text file and cleans data. and generates dictionary.
@@ -21,12 +21,13 @@ def get_Weather_Info(path):
     df.dropna(subset = ['Max TemperatureC', 'Mean TemperatureC', 'Min TemperatureC', 
                         'Max Humidity', 'Mean Humidity', 'Min Humidity'], 
                         how='any', inplace=True)
+    
     # filling data in dictionary
     weather_data = {date : {column : df[column][date] for column in df.columns} for date in df.index.values}    
     return weather_data
 
 
-def getWeatherFiles(date, path):
+def getWeatherFiles(date: str, path: str) -> list[str]:
     """
     Summary:
         Gets date and directory path. 
@@ -52,7 +53,7 @@ def getWeatherFiles(date, path):
     return weatherFiles
 
 
-# def get_Weather_Info(path):
+# def get_Weather_Info(path: str) -> dict[str, dict]:
     # weather_data = {}
     # column = []
     # with open(path, 'r') as file:

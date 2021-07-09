@@ -1,7 +1,7 @@
 from sourcecode.utilities import get_Weather_Info, getWeatherFiles, calendar
 
 
-def task5(path,date):
+def task5(path: str, date: str):
     """
     Summary:
         Visits all files and prints High Temperatures, Low Temperatures 
