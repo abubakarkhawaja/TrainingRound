@@ -2,6 +2,16 @@ from sourcecode.utilities import get_Weather_Info, getWeatherFiles
 
 
 def task2 (path,date):
+    """
+    Summary:
+        Visits all files and prints Average of High Temperatures, 
+        Average of Low Temperatures ,and Average of Mean Humidity 
+        based on requested Year/Month.
+
+    Args:
+        date (str): Date entered by user as command line argument
+        path (str): Contains path to weather files directory
+    """
     avg_highest_temp = float('-inf')
     avg_lowest_temp = float('inf')
     avg_mean_humidity = float('-inf')

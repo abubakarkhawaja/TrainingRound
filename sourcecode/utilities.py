@@ -4,6 +4,16 @@ import pandas as pd
 
 
 def get_Weather_Info(path):
+    """
+    Summary:
+        Used to read text file and cleans data. and generates dictionary.
+
+    Args:
+        path (str): [Contains file complete path]
+
+    Returns:
+        dict: [dictionary inside a dictionary]
+    """
     df = pd.read_csv(path)
     # cleaning
     df.columns = df.columns.str.strip()
@@ -17,6 +27,18 @@ def get_Weather_Info(path):
 
 
 def getWeatherFiles(date, path):
+    """
+    Summary:
+        Gets date and directory path. 
+        Base on these returns file names.
+
+    Args:
+        date (str): Date entered by user as command line argument
+        path (str): Contains path to weather files directory
+
+    Returns:
+        list: list of full path to weather files
+    """
     directory = os.listdir(path)
     if '/' in date:
         # It means year with month was given as command line argument

@@ -2,6 +2,15 @@ from sourcecode.utilities import get_Weather_Info, getWeatherFiles, calendar
 
 
 def task1 (path,date):
+    """
+    Summary:
+        Visits all files and prints Highest Temperature, Lowest Temperature
+        and Humidity based on comparising months of requested Year.
+
+    Args:
+        date (str): Date entered by user as command line argument
+        path (str): Contains path to weather files directory
+    """
     #Inititalization
     highest_temp = float('-inf')
     highest_temp_date = ""

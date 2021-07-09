@@ -2,6 +2,16 @@ from sourcecode.utilities import get_Weather_Info, getWeatherFiles, calendar
 
 
 def task5(path,date):
+    """
+    Summary:
+        Visits all files and prints High Temperatures, Low Temperatures 
+        of all days of requested Year/Month with visual bar (red for high
+        and blue for low temperature in single line).
+
+    Args:
+        date (str): Date entered by user as command line argument
+        path (str): Contains path to weather files directory
+    """
     # getting filename
     weatherfile = getWeatherFiles(date, path)
     if weatherfile == []:
