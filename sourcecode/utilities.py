@@ -14,20 +14,25 @@ def get_Weather_Info(path: str) -> dict[str, dict]:
     Returns:
         dict: [dictionary inside a dictionary]
     """
-    df = pd.read_csv(path)
-    # cleaning
-    df.columns = df.columns.str.strip()
-    df = df.set_index('PKT')
-    df.dropna(subset = ['Max TemperatureC', 'Mean TemperatureC', 'Min TemperatureC', 
-                        'Max Humidity', 'Mean Humidity', 'Min Humidity'], 
-                        how='any', inplace=True)
-    
-    # filling data in dictionary
-    weather_data = {date : {column : df[column][date] for column in df.columns} for date in df.index.values}    
-    return weather_data
+
+    try:
+        df = pd.read_csv(path)
+    except IOError:
+        print("File not found")
+    else:
+        # cleaning
+        df.columns = df.columns.str.strip()
+        df = df.set_index('PKT')
+        df.dropna(subset = ['Max TemperatureC', 'Mean TemperatureC', 'Min TemperatureC', 
+                            'Max Humidity', 'Mean Humidity', 'Min Humidity'], 
+                            how='any', inplace=True)
+
+        # filling data in dictionary
+        weather_data = {date : {column : df[column][date] for column in df.columns} for date in df.index.values}    
+        return weather_data
 
 
-def getWeatherFiles(date: str, path: str) -> list[str]:
+def get_Weather_Files(date: str, path: str) -> list[str]:
     """
     Summary:
         Gets date and directory path. 
@@ -40,17 +45,22 @@ def getWeatherFiles(date: str, path: str) -> list[str]:
     Returns:
         list: list of full path to weather files
     """
-    directory = os.listdir(path)
-    if '/' in date:
-        # It means year with month was given as command line argument
-        monthNumber = int(date.split('/')[1])
-        month = calendar.month_abbr[monthNumber]
-        year = date.split('/')[0]
-        weatherFiles = [dir for dir in directory if year in dir and month in dir]        
-    else: 
-        # It means only year was given as command line argument
-        weatherFiles = [dir for dir in directory if date in dir]
-    return weatherFiles
+
+    try:
+        directory = os.listdir(path)
+    except IOError:
+        print("File not found")
+    else:
+        if '/' in date:
+            # It means year with month was given as command line argument
+            monthNumber = int(date.split('/')[1])
+            month = calendar.month_abbr[monthNumber]
+            year = date.split('/')[0]
+            weatherFiles = [dir for dir in directory if year in dir and month in dir]        
+        else: 
+            # It means only year was given as command line argument
+            weatherFiles = [dir for dir in directory if date in dir]
+        return weatherFiles
 
 
 # def get_Weather_Info(path: str) -> dict[str, dict]:
