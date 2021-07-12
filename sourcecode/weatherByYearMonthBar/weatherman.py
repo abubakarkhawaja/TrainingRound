@@ -1,27 +1,24 @@
 from pandas.io.parsers import read_csv
-from sourcecode.utilities import get_Weather_Files, get_Weather_Info, calendar
+from sourcecode.utilities import get_weather_files, get_weather_info, calendar
 
 
-def task3 (path: str, date: str):
+def weather_by_year_month_bar(path: str, date: str):
     """
-    Summary:
-        Visits all files and prints High Temperatures, Low Temperatures 
-        of all days of requested Year/Month with visual bar (red for high
-        and blue for low temperature seperated by line).
+    Visits all files and prints High Temperatures, Low Temperatures 
+    of all days of requested Year/Month with visual bar (red for high
+    and blue for low temperature seperated by line).
 
-    Args:
+    Parameters:
         date (str): Date entered by user as command line argument
         path (str): Contains path to weather files directory
     """
-    # acquiring file name
-    weatherfile = get_Weather_Files(date, path)
+    weatherfile = get_weather_files(date, path)
     if weatherfile == []:
         print('No such record founnd')
     else:
-        fullPath = path+weatherfile[0]        # [0] because only 1 file exist of specific month in whole year
-        weather_data = get_Weather_Info(fullPath)
+        fullPath = path+weatherfile[0]
+        weather_data = get_weather_info(fullPath)
 
-        # converting numerical month to alphabetical month with help of MONTHS list
         monthNumber = int(date.split('/')[1])
         month = calendar.month_name[monthNumber]
         year = date.split('/')[0]
@@ -32,12 +29,9 @@ def task3 (path: str, date: str):
             highTemp = int(weather_data[key]['Max TemperatureC'])
             lowTemp = int(weather_data[key]['Min TemperatureC'])
 
-            # creating bar by mulitplying elements of list with total temperature value and then joining as string 
-            # => giving total signs required with no spaces
             highBar = "".join(['+']*highTemp)
             lowBar = "".join(['+']*lowTemp)
 
-            # As weather data keys are acutal date '2011-09-03'. So, getting days from it.
             day = key.split('-')[2]
 
             """

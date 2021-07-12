@@ -1,5 +1,5 @@
 import unittest
-from utilities import get_Weather_Info, get_Weather_Files
+from utilities import get_weather_info, get_weather_files
 
 class TestUtilites(unittest.TestCase):
 
@@ -24,17 +24,16 @@ class TestUtilites(unittest.TestCase):
         print('tearDown\n')
 
     def test_get_Weather_Info(self):
-        self.assertIsInstance(get_Weather_Info(self.filePath), dict)    
+        self.assertIsInstance(get_weather_info(self.filePath), dict)    
 
-        self.assertIsNone(get_Weather_Info(''))
+        self.assertIsNone(get_weather_info(''))
         print('test_get_Weather_Info')
 
     def test_get_Weather_Files(self):
-        self.assertIsInstance(get_Weather_Files('2004/6', self.directoryPath), list)
+        self.assertIsInstance(get_weather_files('2004/6', self.directoryPath), list)
 
-        self.assertIsNone(get_Weather_Files('',''))
+        self.assertIsNone(get_weather_files('',''))
         print('test_get_Weather_Files')
-
 
 
 """

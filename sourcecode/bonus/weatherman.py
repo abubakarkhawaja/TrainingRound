@@ -1,24 +1,23 @@
-from sourcecode.utilities import get_Weather_Files, get_Weather_Info, calendar
+from sourcecode.utilities import get_weather_files, get_weather_info, calendar
 
 
-def task5(path: str, date: str):
+def weath_by_year_month_bar_bonus(path: str, date: str):
     """
     Summary:
         Visits all files and prints High Temperatures, Low Temperatures 
         of all days of requested Year/Month with visual bar (red for high
         and blue for low temperature in single line).
 
-    Args:
+    Parameters:
         date (str): Date entered by user as command line argument
         path (str): Contains path to weather files directory
     """
-    # getting filename
-    weatherfile = get_Weather_Files(date, path)
+    weatherfile = get_weather_files(date, path)
     if weatherfile == []:
         print('No such record founnd')
     else:
-        fullPath = path+weatherfile[0]         # [0] because only 1 file exist of specific month in whole year
-        weather_data = get_Weather_Info(fullPath)
+        fullPath = path+weatherfile[0]
+        weather_data = get_weather_info(fullPath)
 
         monthNumber = int(date.split('/')[1])
         month = calendar.month_name[monthNumber]
@@ -27,15 +26,12 @@ def task5(path: str, date: str):
         print(month,year)
         
         for key in weather_data.keys():
-            # getting high and low temperature
             highTemp = int(weather_data[key]['Max TemperatureC'])
             lowTemp = int(weather_data[key]['Min TemperatureC'])
 
-            #creating bar
             highBar = "".join(['+']*highTemp)
             lowBar = "".join(['+']*lowTemp)
 
-            # As weather data keys are acutal date '2011-09-03'. So, getting days from it.
             day = key.split('-')[2]
             """
                 The ANSI escape code will set the text colour to bright green. The format is;
