@@ -26,7 +26,6 @@ def weather_by_year_month_bar_bonus(path: str, date: str) -> None:
         
         for key in weather_data.keys():
             day = key.split('-')[2]
-
             if weather_data[key]['Max TemperatureC'] == "" \
                 or weather_data[key]['Min TemperatureC'] == "":
                 continue
