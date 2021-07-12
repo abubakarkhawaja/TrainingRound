@@ -35,11 +35,5 @@ def weather_by_year_month_bar(path: str, date: str) -> None:
             if weather_data[key]['Max TemperatureC'] != "":
                 lowTemp = int(weather_data[key]['Min TemperatureC'])
                 lowBar = "".join(['+'] * lowTemp)
+                
                 print(day, f"\033[1;34;40m{lowBar}", f"\033[1;;40m{lowTemp}C")
-            """
-                The ANSI escape code will set the text colour to bright green. The format is;
-                \033[  Escape code, this is always the same
-                1 = Style, 1 for normal.
-                31 = Text colour, 31 for red, 34 for blue.
-                40m = Background colour, 40 is for black.
-            """
