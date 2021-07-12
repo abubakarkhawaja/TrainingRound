@@ -1,6 +1,4 @@
-import os
-import calendar
-import csv
+import os, calendar, csv
 
 
 def get_weather_files(date: str, path: str) -> list[str]:
