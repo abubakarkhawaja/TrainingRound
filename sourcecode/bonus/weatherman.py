@@ -15,7 +15,7 @@ def weather_by_year_month_bar_bonus(path: str, date: str) -> None:
     if weatherfile == []:
         print('No such record founnd')
     else:
-        fullPath = path+weatherfile[0]
+        fullPath = path + weatherfile[0]
         weather_data = get_weather_info(fullPath)
 
         monthNumber = int(date.split('/')[1])
@@ -30,9 +30,9 @@ def weather_by_year_month_bar_bonus(path: str, date: str) -> None:
                 continue
 
             highTemp = int(weather_data[key]['Max TemperatureC'])
-            highBar = "".join(['+']*highTemp)
+            highBar = "".join(['+'] * highTemp)
             lowTemp = int(weather_data[key]['Min TemperatureC'])
-            lowBar = "".join(['+']*lowTemp)
+            lowBar = "".join(['+'] * lowTemp)
             """
                 The ANSI escape code will set the text colour to bright green. The format is;
                 \033[  Escape code, this is always the same

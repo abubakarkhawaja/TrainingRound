@@ -16,7 +16,7 @@ def weather_by_year_month_bar(path: str, date: str) -> None:
     if weatherfile == []:
         print('No such record founnd')
     else:
-        fullPath = path+weatherfile[0]
+        fullPath = path + weatherfile[0]
         weather_data = get_weather_info(fullPath)
 
         monthNumber = int(date.split('/')[1])
@@ -29,12 +29,12 @@ def weather_by_year_month_bar(path: str, date: str) -> None:
             day = key.split('-')[2]
             if weather_data[key]['Max TemperatureC'] != "":
                 highTemp = int(weather_data[key]['Max TemperatureC'])
-                highBar = "".join(['+']*highTemp)
+                highBar = "".join(['+'] * highTemp)
                 print(day, f"\033[1;31;40m{highBar}", f"\033[1;;40m{highTemp}C")
 
             if weather_data[key]['Max TemperatureC'] != "":
                 lowTemp = int(weather_data[key]['Min TemperatureC'])
-                lowBar = "".join(['+']*lowTemp)
+                lowBar = "".join(['+'] * lowTemp)
                 print(day, f"\033[1;34;40m{lowBar}", f"\033[1;;40m{lowTemp}C")
             """
                 The ANSI escape code will set the text colour to bright green. The format is;

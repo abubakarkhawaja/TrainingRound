@@ -19,7 +19,7 @@ def weather_by_year_month(path: str, date: str) -> None:
     if weatherfile == []:
         print('No such record founnd')
     else:
-        fullPath = path+weatherfile[0]
+        fullPath = path + weatherfile[0]
         weather_data = get_weather_info(fullPath)
 
         total_max_temp = 0
@@ -35,9 +35,9 @@ def weather_by_year_month(path: str, date: str) -> None:
                 total_mean_humidity += int(weather_data[key]['Mean Humidity'])
         
         length = len(weather_data)
-        avg_highest_temp = total_max_temp/length
-        avg_lowest_temp = total_min_temp/length
-        avg_mean_humidity = total_mean_humidity/length
+        avg_highest_temp = total_max_temp / length
+        avg_lowest_temp = total_min_temp / length
+        avg_mean_humidity = total_mean_humidity / length
 
         print (f'Highest Average: {round(avg_highest_temp)}C')
         print(f'Lowest Average:', f'{round(avg_lowest_temp)}C')

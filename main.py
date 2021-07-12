@@ -1,4 +1,3 @@
-import sys
 import argparse
 
 from sourcecode.weatherByYear.weatherman import weather_by_year

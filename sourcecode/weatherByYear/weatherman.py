@@ -20,7 +20,7 @@ def weather_by_year(path: str, date: str) -> None:
     weatherFiles = get_weather_files(date, path)     
 
     for weatherfile in weatherFiles:
-        fullPath = path+weatherfile
+        fullPath = path + weatherfile
         weather_data = get_weather_info(fullPath)
 
         max_temp =  float('-inf')
