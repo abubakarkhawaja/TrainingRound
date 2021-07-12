@@ -1,7 +1,7 @@
 from sourcecode.utilities import get_weather_files, get_weather_info
 
 
-def weather_by_year_month(path: str, date: str):
+def weather_by_year_month(path: str, date: str) -> None:
     """
     Visits all files and prints Average of High Temperatures, 
     Average of Low Temperatures ,and Average of Mean Humidity 

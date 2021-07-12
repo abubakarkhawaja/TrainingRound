@@ -1,7 +1,7 @@
 from sourcecode.utilities import get_weather_files, get_weather_info, calendar
 
 
-def weather_by_year(path: str, date: str):
+def weather_by_year(path: str, date: str) -> None:
     """
     Visits all files and prints Highest Temperature, Lowest Temperature
     and Humidity based on comparising months of requested Year.
