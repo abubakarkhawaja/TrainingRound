@@ -1,4 +1,4 @@
-from sourcecode.utilities import get_Weather_Info, getWeatherFiles, calendar
+from sourcecode.utilities import get_Weather_Files, get_Weather_Info, calendar
 
 
 def task1 (path: str, date: str):
@@ -20,7 +20,7 @@ def task1 (path: str, date: str):
     humidity_date = ""
 
     # getting files name list
-    weatherFiles = getWeatherFiles(date, path)     
+    weatherFiles = get_Weather_Files(date, path)     
 
     # traversing through all files of same year   
     for weatherfile in weatherFiles:

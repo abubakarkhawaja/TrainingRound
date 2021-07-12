@@ -1,4 +1,4 @@
-from sourcecode.utilities import get_Weather_Info, getWeatherFiles, calendar
+from sourcecode.utilities import get_Weather_Files, get_Weather_Info, calendar
 
 
 def task5(path: str, date: str):
@@ -13,7 +13,7 @@ def task5(path: str, date: str):
         path (str): Contains path to weather files directory
     """
     # getting filename
-    weatherfile = getWeatherFiles(date, path)
+    weatherfile = get_Weather_Files(date, path)
     if weatherfile == []:
         print('No such record founnd')
     else:

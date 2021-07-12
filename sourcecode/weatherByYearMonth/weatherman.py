@@ -1,4 +1,4 @@
-from sourcecode.utilities import get_Weather_Info, getWeatherFiles
+from sourcecode.utilities import get_Weather_Files, get_Weather_Info
 
 
 def task2 (path: str, date: str):
@@ -17,7 +17,7 @@ def task2 (path: str, date: str):
     avg_mean_humidity = float('-inf')
 
     # acquiring file name of required weather file of specific month
-    weatherfile = getWeatherFiles(date, path)        # [0] because only 1 file exist of specific month in whole year
+    weatherfile = get_Weather_Files(date, path)        # [0] because only 1 file exist of specific month in whole year
     if weatherfile == []:
         print('No such record founnd')
     else:
