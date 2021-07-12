@@ -1,12 +1,11 @@
 from sourcecode.utilities import get_weather_files, get_weather_info, calendar
 
 
-def weath_by_year_month_bar_bonus(path: str, date: str):
+def weather_by_year_month_bar_bonus(path: str, date: str):
     """
-    Summary:
-        Visits all files and prints High Temperatures, Low Temperatures 
-        of all days of requested Year/Month with visual bar (red for high
-        and blue for low temperature in single line).
+    Visits all files and prints High Temperatures, Low Temperatures 
+    of all days of requested Year/Month with visual bar (red for high
+    and blue for low temperature in single line).
 
     Parameters:
         date (str): Date entered by user as command line argument
