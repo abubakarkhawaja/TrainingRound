@@ -34,12 +34,3 @@ class TestUtilites(unittest.TestCase):
 
         self.assertIsNone(get_weather_files('',''))
         print('test_get_weather_files')
-
-
-"""
-    with this no need to write command like >> python -m unittest [filename]
-    use instead:
-    python [filename] 
-"""
-if __name__ == "__main__":
-    unittest.main()
