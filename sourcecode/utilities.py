@@ -43,24 +43,12 @@ def get_weather_info(path: str) -> dict[str, dict]:
     :dict: returns dictionary with data on weather file.
     """
     weatherData = {}
-    columns = []
     if not path:
         raise FileNotFoundError('File not found')
     else:
         with open(path, 'r') as csv_file:
-            csvReader = csv.reader(csv_file, delimiter=',')
-            lineCount = 0
-            for line in csvReader:
-                if lineCount == 0:
-                    columns = list(map(str.strip, line))
-                    lineCount+=1
-                else:        
-                    for i in range(1, len(line)):
-                        row = line
-                        date = row[0]
-                        weatherData[date] = {}
-                        for j in range(1, len(columns)):
-                            columnName = columns[j]
-                            weatherData[date][columnName] = line[j]
+            csvReader = csv.DictReader(csv_file)
+            for row in csvReader:
+                weatherData[row['PKT']] = {column.strip(): value for column, value in row.items()}
             csv_file.flush()
     return weatherData
