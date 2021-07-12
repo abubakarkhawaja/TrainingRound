@@ -6,14 +6,15 @@ def get_weather_files(date: str, path: str) -> list[str]:
     Gets date and directory path. 
     Base on these returns file names.
 
-    Parameters:
-        date (str): Date entered by user as command line argument
-        path (str): Contains path to weather files directory
+    @params:
+    :date str: Date entered by user as command line argument
+    :path str: Contains path to weather files directory
 
-    Returns:
-        list: list of full path to weather files
-    Raises:
-        IOError: File not found    
+    @return
+    :list: list of full path to weather files
+    
+    @raise
+    :IOError: File not found    
     """
 
     try:
@@ -35,11 +36,11 @@ def get_weather_info(path: str) -> dict[str, dict]:
     """
     Gets directory path and read data within that file. 
     
-    Parameters:
-        path (str): Contains path to weather file directory
+    @params
+    :path str: Contains path to weather file directory
 
-    Returns:
-        dict: returns dictionary with data on weather file.
+    @return
+    :dict: returns dictionary with data on weather file.
     """
     weatherData = {}
     columns = []

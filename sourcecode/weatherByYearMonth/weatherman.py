@@ -7,9 +7,9 @@ def weather_by_year_month(path: str, date: str) -> None:
     Average of Low Temperatures ,and Average of Mean Humidity 
     based on requested Year/Month.
 
-    Parameters:
-        date (str): Date entered by user as command line argument
-        path (str): Contains path to weather files directory
+    @params
+    :date str: Date entered by user as command line argument
+    :path str: Contains path to weather files directory
     """
     avg_highest_temp = float('-inf')
     avg_lowest_temp = float('inf')

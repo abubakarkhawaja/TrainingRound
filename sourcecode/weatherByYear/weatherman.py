@@ -6,9 +6,9 @@ def weather_by_year(path: str, date: str) -> None:
     Visits all files and prints Highest Temperature, Lowest Temperature
     and Humidity based on comparising months of requested Year.
 
-    Parameters:
-        date (str): Date entered by user as command line argument
-        path (str): Contains path to weather files directory
+    @params
+    :date str: Date entered by user as command line argument
+    :path str: Contains path to weather files directory
     """
     highest_temp = float('-inf')
     highest_temp_date = ""

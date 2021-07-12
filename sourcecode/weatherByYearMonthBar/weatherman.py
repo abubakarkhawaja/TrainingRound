@@ -8,9 +8,9 @@ def weather_by_year_month_bar(path: str, date: str) -> None:
     of all days of requested Year/Month with visual bar (red for high
     and blue for low temperature seperated by line).
 
-    Parameters:
-        date (str): Date entered by user as command line argument
-        path (str): Contains path to weather files directory
+    @params
+    :date str: Date entered by user as command line argument
+    :path str: Contains path to weather files directory
     """
     weatherfile = get_weather_files(date, path)
     if weatherfile == []:
