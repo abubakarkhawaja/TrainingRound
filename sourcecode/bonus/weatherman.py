@@ -11,6 +11,7 @@ def weather_by_year_month_bar_bonus(path: str, date: str) -> None:
         date (str): Date entered by user as command line argument
         path (str): Contains path to weather files directory
     """
+
     weatherfile = get_weather_files(date, path)
     if weatherfile == []:
         print('No such record founnd')
