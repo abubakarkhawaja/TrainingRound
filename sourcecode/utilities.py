@@ -55,11 +55,9 @@ def get_weather_info(path: str) -> dict[str, dict]:
             else:        
                 for i in range(1, len(line)):
                     row = line
-                    if row[1] == "":
-                        continue
                     date = row[0]
                     weatherData[date] = {}
-                    for j in range(len(columns)):
+                    for j in range(1, len(columns)):
                         columnName = columns[j]
                         weatherData[date][columnName] = line[j]
         csv_file.flush()
