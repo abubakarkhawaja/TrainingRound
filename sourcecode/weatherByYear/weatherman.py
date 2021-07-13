@@ -1,7 +1,7 @@
-from sourcecode.utilities import get_weather_files, get_weather_info, calendar
+import calendar
+from sourcecode.weatherman import WeatherMan
 
-
-class WeatherManYear:
+class WeatherManYear(WeatherMan):
     report = {
         'highest_temp': float('-inf'),
         'highest_temp_date': "",
@@ -19,13 +19,13 @@ class WeatherManYear:
         :date str: Date entered by user as command line argument
         :path str: Contains path to weather files directory
         """
-        weather_files = get_weather_files(date, path)     
+        weather_files = self.get_weather_files(date, path)     
         if not weather_files:
             print('No Weather Date for these date.')
         else:
             for weather_file in weather_files:
                 full_path = path + weather_file
-                weather_data = get_weather_info(full_path)
+                weather_data = self.get_weather_info(full_path)
                 self.calculate_report(weather_data)
             self.generate_report()
 

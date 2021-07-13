@@ -1,7 +1,6 @@
-from sourcecode.utilities import get_weather_files, get_weather_info, calendar
-from sourcecode.weatherByYearMonthBar.weatherman import WeatherManBar
+from sourcecode.weatherman import WeatherMan
 
-class WeatherManBonus(WeatherManBar):
+class WeatherManBonus(WeatherMan):
     
     def weather_by_year_month_bar_bonus(self, path: str, date: str) -> None:
         """
@@ -11,12 +10,12 @@ class WeatherManBonus(WeatherManBar):
         :date str: Date entered by user as command line argument
         :path str: Contains path to weather files directory
         """
-        weather_file = get_weather_files(date, path)
+        weather_file = self.get_weather_files(date, path)
         if weather_file == []:
             print('No such record founnd')
         else:
             full_path = path + weather_file[0]
-            weather_data = get_weather_info(full_path)
+            weather_data = self.get_weather_info(full_path)
             self.generate_report(date, weather_data)
 
     def generate_report(self, date: str, weather_data: dict) -> None:

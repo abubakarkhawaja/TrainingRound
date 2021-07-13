@@ -1,7 +1,6 @@
-from sourcecode.utilities import get_weather_files, get_weather_info
+from sourcecode.weatherman import WeatherMan
 
-
-class WeatherManYearMonth:
+class WeatherManYearMonth(WeatherMan):
     report = {
         'avg_highest_temp': float('-inf'),
         'avg_lowest_temp': float('inf'),
@@ -16,12 +15,12 @@ class WeatherManYearMonth:
         :date str: Date entered by user as command line argument
         :path str: Contains path to weather files directory
         """
-        weather_file = get_weather_files(date, path)
+        weather_file = self.get_weather_files(date, path)
         if weather_file == []:
             print('No such record founnd')
         else:
             full_path = path + weather_file[0]
-            weather_data = get_weather_info(full_path)
+            weather_data = self.get_weather_info(full_path)
             self.calculate_report(weather_data)
             self.generate_report()
 

@@ -1,8 +1,7 @@
-from pandas.io.parsers import read_csv
-from sourcecode.utilities import get_weather_files, get_weather_info, calendar
+from sourcecode.weatherman import WeatherMan
 
 
-class WeatherManBar:
+class WeatherManBar(WeatherMan):
 
     def weather_by_year_month_bar(self, path: str, date: str) -> None:
         """
@@ -12,12 +11,12 @@ class WeatherManBar:
         :date str: Date entered by user as command line argument
         :path str: Contains path to weather files directory
         """
-        weather_file = get_weather_files(date, path)
+        weather_file = self.get_weather_files(date, path)
         if weather_file == []:
             print('No such record founnd')
         else:
             full_path = path + weather_file[0]
-            weather_data = get_weather_info(full_path)
+            weather_data = self.get_weather_info(full_path)
             self.generate_report(date, weather_data)
 
     def generate_report(self, date: str, weather_data: dict) -> None:
@@ -43,15 +42,6 @@ class WeatherManBar:
                 low_temp = int(weather_day_info['Min TemperatureC'])
                 low_bar = self.generateBar(low_temp)
                 self.showLowTemperatureBar(weather_date, low_temp, low_bar)
-
-    def generateBar(self, size_of_bar: int) -> str:
-        """
-        Used to create bar of certain length made of '+' character
-
-        @params
-        :size_of_bar int: length of bar needed
-        """
-        return "".join(['+'] * size_of_bar)
 
     def showLowTemperatureBar(
                 self, weather_date: str, 
@@ -82,15 +72,3 @@ class WeatherManBar:
         print(weather_date
                     , f"\033[1;31;40m{high_bar}"
                     , f"\033[1;;40m{high_temp}C")
-
-    def printMonthYear(self, date: str) -> None:
-        """
-        Print Month and date
-
-        @params
-        :date str: Contains date 'Year/Month'
-        """
-        month_number = int(date.split('/')[1])
-        month = calendar.month_name[month_number]
-        year = date.split('/')[0]
-        print(month, year)
