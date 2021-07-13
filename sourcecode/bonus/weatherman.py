@@ -13,7 +13,7 @@ class WeatherManBonus(WeatherMan):
         """
         weather_file = self.get_weather_files(date, path)
         if weather_file == []:
-            print('No such record founnd')
+            print('No such record found')
         else:
             full_path = path + weather_file[0]
             weather_data = self.get_weather_info(full_path)

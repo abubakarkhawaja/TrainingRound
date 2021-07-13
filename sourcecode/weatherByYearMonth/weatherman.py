@@ -41,7 +41,7 @@ class WeatherManYearMonth(WeatherMan):
                 total_max_temp += int(weather_day_info['Max TemperatureC'])
                 
             if weather_day_info['Min TemperatureC'] != "":            
-                total_min_temp += int (weather_day_info['Min TemperatureC'])
+                total_min_temp += int(weather_day_info['Min TemperatureC'])
                 
             if weather_day_info['Mean Humidity'] != "":
                 total_mean_humidity += int(weather_day_info['Mean Humidity'])
