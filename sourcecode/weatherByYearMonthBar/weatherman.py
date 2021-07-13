@@ -37,5 +37,4 @@ def weather_by_year_month_bar(path: str, date: str) -> None:
             if weatherDayInfo['Max TemperatureC'] != "":
                 lowTemp = int(weatherDayInfo['Min TemperatureC'])
                 lowBar = "".join(['+'] * lowTemp)
-                
                 print(weatherDate, f"\033[1;34;40m{lowBar}", f"\033[1;;40m{lowTemp}C")
