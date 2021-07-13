@@ -1,43 +1,96 @@
 from pandas.io.parsers import read_csv
 from sourcecode.utilities import get_weather_files, get_weather_info, calendar
 
-def weather_by_year_month_bar(path: str, date: str) -> None:
-    """
-    Visits all files and prints High Temperatures, Low Temperatures 
-    of all days of requested Year/Month with visual bar (red for high
-    and blue for low temperature seperated by line).
 
-    @params
-    :date str: Date entered by user as command line argument
-    :path str: Contains path to weather files directory
-    """
-    weather_file = get_weather_files(date, path)
-    if weather_file == []:
-        print('No such record founnd')
-    else:
-        full_path = path + weather_file[0]
-        weather_data = get_weather_info(full_path)
+class WeatherManBar:
 
-        month_number = int(date.split('/')[1])
-        month = calendar.month_name[month_number]
-        year = date.split('/')[0]
-        
-        print(month, year)
-        
+    def weather_by_year_month_bar(self, path: str, date: str) -> None:
+        """
+        Parses all files and generates report.
+
+        @params
+        :date str: Date entered by user as command line argument
+        :path str: Contains path to weather files directory
+        """
+        weather_file = get_weather_files(date, path)
+        if weather_file == []:
+            print('No such record founnd')
+        else:
+            full_path = path + weather_file[0]
+            weather_data = get_weather_info(full_path)
+            self.generate_report(date, weather_data)
+
+    def generate_report(self, date: str, weather_data: dict) -> None:
+        """ 
+        Prints bar for high and low temperature of each dates.
+
+        @params
+        :date str: contains month and year 
+        :weather_data dict: hold field names as key and their values.
+        """
+        self.printMonthYear(date)
+            
         for weather_day_info in weather_data:
             if weather_day_info['PKT'] != "":
                 weather_date = weather_day_info['PKT'].split('-')[2]
- 
+    
             if weather_day_info['Max TemperatureC'] != "":
                 high_temp = int(weather_day_info['Max TemperatureC'])
-                high_bar = "".join(['+'] * high_temp)
-                print(weather_date
-                , f"\033[1;31;40m{high_bar}"
-                , f"\033[1;;40m{high_temp}C")
+                high_bar = self.generateBar(high_temp)
+                self.showHighTemperatureBar(weather_date, high_temp, high_bar)
 
             if weather_day_info['Max TemperatureC'] != "":
                 low_temp = int(weather_day_info['Min TemperatureC'])
-                low_bar = "".join(['+'] * low_temp)
-                print(weather_date
-                , f"\033[1;34;40m{low_bar}"
-                , f"\033[1;;40m{low_temp}C")
+                low_bar = self.generateBar(low_temp)
+                self.showLowTemperatureBar(weather_date, low_temp, low_bar)
+
+    def generateBar(self, size_of_bar: int) -> str:
+        """
+        Used to create bar of certain length made of '+' character
+
+        @params
+        :size_of_bar int: length of bar needed
+        """
+        return "".join(['+'] * size_of_bar)
+
+    def showLowTemperatureBar(
+                self, weather_date: str, 
+                low_temp: int, low_bar: int) -> None:
+        """
+        Shows low temperature bar of blue color (34)
+        
+        @params
+        :weather_date str: Day of month
+        :low_temp int: Low temperature of date
+        :low_bar str: '+'Bar to be visual
+        """
+        print(weather_date
+                    , f"\033[1;34;40m{low_bar}"
+                    , f"\033[1;;40m{low_temp}C")
+
+    def showHighTemperatureBar(
+                self, weather_date: str, 
+                high_temp: int, high_bar: int) -> None:
+        """
+        Shows low temperature bar of red color (31)
+        
+        @params
+        :weather_date str: Day of month
+        :high_temp int: Low temperature of date
+        :high_bar str: '+'Bar to be visual
+        """
+        print(weather_date
+                    , f"\033[1;31;40m{high_bar}"
+                    , f"\033[1;;40m{high_temp}C")
+
+    def printMonthYear(self, date: str) -> None:
+        """
+        Print Month and date
+
+        @params
+        :date str: Contains date 'Year/Month'
+        """
+        month_number = int(date.split('/')[1])
+        month = calendar.month_name[month_number]
+        year = date.split('/')[0]
+        print(month, year)

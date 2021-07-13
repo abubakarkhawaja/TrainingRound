@@ -1,9 +1,5 @@
 import argparse
-
-from sourcecode.weatherByYear.weatherman import weather_by_year
-from sourcecode.weatherByYearMonth.weatherman import weather_by_year_month
-from sourcecode.weatherByYearMonthBar.weatherman import weather_by_year_month_bar
-from sourcecode.bonus.weatherman import weather_by_year_month_bar_bonus 
+from driver import Driver
 
 def main(args):
     """
@@ -11,21 +7,22 @@ def main(args):
     And calls their respective function.
     """
     directory_path = args.pathToDirectory
+    driver = Driver(directory_path)
 
     if args.e:
         print('\nWeather Data by Year:')
-        weather_by_year(directory_path, date=args.e)
+        driver.getReport('e', args.e)
         print('\n')
     if args.a:
         print('\nWeather Data by Year & Month:')
-        weather_by_year_month(directory_path, date=args.a)
+        driver.getReport('a', args.a)
         print('\n')
     if args.c:
         print('\nWeather Data by Year & Month with Coloured Bars')
-        weather_by_year_month_bar(directory_path, date=args.c)
+        driver.getReport('c', args.c)
     if args.d:
         print('\nWeather Data by Year & Month with Coloured Bars (Bonus)')
-        weather_by_year_month_bar_bonus(directory_path, date=args.d)
+        driver.getReport('d', args.d)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
