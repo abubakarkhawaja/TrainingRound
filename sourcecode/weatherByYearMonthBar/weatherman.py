@@ -32,9 +32,13 @@ def weather_by_year_month_bar(path: str, date: str) -> None:
             if weather_day_info['Max TemperatureC'] != "":
                 high_temp = int(weather_day_info['Max TemperatureC'])
                 high_bar = "".join(['+'] * high_temp)
-                print(weather_date, f"\033[1;31;40m{high_bar}", f"\033[1;;40m{high_temp}C")
+                print(weather_date
+                , f"\033[1;31;40m{high_bar}"
+                , f"\033[1;;40m{high_temp}C")
 
             if weather_day_info['Max TemperatureC'] != "":
                 low_temp = int(weather_day_info['Min TemperatureC'])
                 low_bar = "".join(['+'] * low_temp)
-                print(weather_date, f"\033[1;34;40m{low_bar}", f"\033[1;;40m{low_temp}C")
+                print(weather_date
+                , f"\033[1;34;40m{low_bar}"
+                , f"\033[1;;40m{low_temp}C")

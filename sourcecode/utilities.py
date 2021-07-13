@@ -16,7 +16,6 @@ def get_weather_files(date: str, path: str) -> list[str]:
     @raise
     :IOError: File not found    
     """
-
     try:
         directory = os.listdir(path)
     except IOError:
@@ -26,9 +25,14 @@ def get_weather_files(date: str, path: str) -> list[str]:
             month_number = int(date.split('/')[1])
             month = calendar.month_abbr[month_number]
             year = date.split('/')[0]
-            weather_files = [dir for dir in directory if year in dir and month in dir]        
+            weather_files = [dir 
+                            for dir in directory 
+                            if year in dir 
+                            and month in dir]        
         else: 
-            weather_files = [dir for dir in directory if date in dir]
+            weather_files = [dir 
+                            for dir in directory 
+                            if date in dir]
         return weather_files
 
 
@@ -48,7 +52,8 @@ def get_weather_info(path: str) -> list[dict]:
     else:
         with open(path, 'r') as csv_file:
             csv_reader = csv.DictReader(csv_file)
-            csv_reader.fieldnames = [str(field).strip() for field in csv_reader.fieldnames]
+            csv_reader.fieldnames = [str(field).strip()
+                                    for field in csv_reader.fieldnames]
             weather_data = list(csv_reader)
             csv_file.flush()
     return weather_data

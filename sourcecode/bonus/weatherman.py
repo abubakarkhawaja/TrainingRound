@@ -37,4 +37,6 @@ def weather_by_year_month_bar_bonus(path: str, date: str) -> None:
             low_temp = int(weather_day_info['Min TemperatureC'])
             low_bar = "".join(['+'] * low_temp)
             
-            print(weather_date, f"\033[;34;40m{low_bar}\033[;31;40m{high_bar}", f"\033[;;40m{low_temp}C - \033[;;40m{high_temp}C")
+            print(weather_date
+            , f"\033[;34;40m{low_bar}\033[;31;40m{high_bar}"
+            , f"\033[;;40m{low_temp}C - \033[;;40m{high_temp}C")
