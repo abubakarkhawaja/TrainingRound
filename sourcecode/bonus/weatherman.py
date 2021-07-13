@@ -27,7 +27,7 @@ class WeatherManBonus(WeatherMan):
         :date str: date in form of Year/Month
         :weather_data dict: hold field names as key and their values.
         """
-        self.printMonthYear(date)
+        self.print_month_year(date)
             
         for weather_day_info in weather_data:
             if weather_day_info['PKT'] != "":
@@ -38,14 +38,14 @@ class WeatherManBonus(WeatherMan):
                 continue
 
             high_temp = int(weather_day_info['Max TemperatureC'])
-            high_bar = self.generateBar(high_temp)
+            high_bar = self.generate_bar(high_temp)
             low_temp = int(weather_day_info['Min TemperatureC'])
-            low_bar = self.generateBar(low_temp)
+            low_bar = self.generate_bar(low_temp)
                 
-            self.showTemperatureBar(
+            self.show_temperature_bar(
                     weather_date, high_temp, high_bar, low_temp, low_bar)
 
-    def showTemperatureBar(
+    def show_temperature_bar(
                 self, weather_date: str, 
                 high_temp: int, high_bar: str, 
                 low_temp: int, low_bar: str) -> None:

@@ -58,7 +58,7 @@ class WeatherMan:
                 csv_file.flush()
         return weather_data
 
-    def generateBar(self, size_of_bar: int) -> str:
+    def generate_bar(self, size_of_bar: int) -> str:
         """
         Used to create bar of certain length made of '+' character
 
@@ -67,7 +67,7 @@ class WeatherMan:
         """
         return "".join(['+'] * size_of_bar)
     
-    def printMonthYear(self, date: str) -> None:
+    def print_month_year(self, date: str) -> None:
         """
         Print Month and date
 

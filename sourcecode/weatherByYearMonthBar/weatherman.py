@@ -27,7 +27,7 @@ class WeatherManBar(WeatherMan):
         :date str: contains month and year 
         :weather_data dict: hold field names as key and their values.
         """
-        self.printMonthYear(date)
+        self.print_month_year(date)
             
         for weather_day_info in weather_data:
             if weather_day_info['PKT'] != "":
@@ -35,15 +35,15 @@ class WeatherManBar(WeatherMan):
     
             if weather_day_info['Max TemperatureC'] != "":
                 high_temp = int(weather_day_info['Max TemperatureC'])
-                high_bar = self.generateBar(high_temp)
-                self.showHighTemperatureBar(weather_date, high_temp, high_bar)
+                high_bar = self.generate_bar(high_temp)
+                self.show_high_temperature_bar(weather_date, high_temp, high_bar)
 
             if weather_day_info['Max TemperatureC'] != "":
                 low_temp = int(weather_day_info['Min TemperatureC'])
-                low_bar = self.generateBar(low_temp)
-                self.showLowTemperatureBar(weather_date, low_temp, low_bar)
+                low_bar = self.generate_bar(low_temp)
+                self.show_low_temperature_bar(weather_date, low_temp, low_bar)
 
-    def showLowTemperatureBar(
+    def show_low_temperature_bar(
                 self, weather_date: str, 
                 low_temp: int, low_bar: int) -> None:
         """
@@ -58,7 +58,7 @@ class WeatherManBar(WeatherMan):
                     , f"\033[1;34;40m{low_bar}"
                     , f"\033[1;;40m{low_temp}C")
 
-    def showHighTemperatureBar(
+    def show_high_temperature_bar(
                 self, weather_date: str, 
                 high_temp: int, high_bar: int) -> None:
         """
