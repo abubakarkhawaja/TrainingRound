@@ -1,5 +1,5 @@
 import calendar
-from sourcecode.weatherman import WeatherMan
+from sourcecode.weather_services import WeatherMan
 
 class WeatherManYear(WeatherMan):
     report = {

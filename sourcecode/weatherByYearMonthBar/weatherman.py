@@ -1,4 +1,4 @@
-from sourcecode.weatherman import WeatherMan
+from sourcecode.weather_services import WeatherMan
 
 
 class WeatherManBar(WeatherMan):

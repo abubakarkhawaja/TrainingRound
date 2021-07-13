@@ -1,3 +1,6 @@
+from sourcecode.weather_services import WeatherMan
+
+
 class WeatherManBonus(WeatherMan):
     
     def weather_by_year_month_bar_bonus(self, path: str, date: str) -> None:
