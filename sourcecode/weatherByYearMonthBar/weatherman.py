@@ -1,7 +1,6 @@
 from pandas.io.parsers import read_csv
 from sourcecode.utilities import get_weather_files, get_weather_info, calendar
 
-
 def weather_by_year_month_bar(path: str, date: str) -> None:
     """
     Visits all files and prints High Temperatures, Low Temperatures 

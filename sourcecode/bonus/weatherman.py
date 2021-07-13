@@ -1,6 +1,5 @@
 from sourcecode.utilities import get_weather_files, get_weather_info, calendar
 
-
 def weather_by_year_month_bar_bonus(path: str, date: str) -> None:
     """
     Visits all files and prints High Temperatures, Low Temperatures 

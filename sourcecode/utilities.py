@@ -1,6 +1,5 @@
 import os, calendar, csv
 
-
 def get_weather_files(date: str, path: str) -> list[str]:
     """
     Gets date and directory path. 

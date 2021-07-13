@@ -1,6 +1,5 @@
 from sourcecode.utilities import get_weather_files, get_weather_info, calendar
 
-
 def weather_by_year(path: str, date: str) -> None:
     """
     Visits all files and prints Highest Temperature, Lowest Temperature
@@ -74,7 +73,7 @@ def weather_by_year(path: str, date: str) -> None:
             if humidity < max_humid:
                 humidity = max_humid
                 humidity_date = max_humid_date
-        
+
         print (f'Highest: {highest_temp}C on {highest_temp_date}')
         print(f'Lowest: {lowest_temp}C on {lowest_temp_date}')
         print(f'Humidity: {humidity}% on {humidity_date}')
