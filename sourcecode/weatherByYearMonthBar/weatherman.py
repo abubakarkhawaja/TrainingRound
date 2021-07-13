@@ -12,29 +12,29 @@ def weather_by_year_month_bar(path: str, date: str) -> None:
     :date str: Date entered by user as command line argument
     :path str: Contains path to weather files directory
     """
-    weatherfile = get_weather_files(date, path)
-    if weatherfile == []:
+    weather_file = get_weather_files(date, path)
+    if weather_file == []:
         print('No such record founnd')
     else:
-        fullPath = path + weatherfile[0]
-        weather_data = get_weather_info(fullPath)
+        full_path = path + weather_file[0]
+        weather_data = get_weather_info(full_path)
 
-        monthNumber = int(date.split('/')[1])
-        month = calendar.month_name[monthNumber]
+        month_number = int(date.split('/')[1])
+        month = calendar.month_name[month_number]
         year = date.split('/')[0]
         
-        print(month,year)
+        print(month, year)
         
-        for weatherDayInfo in weather_data:
-            if weatherDayInfo['PKT'] != "":
-                weatherDate = weatherDayInfo['PKT'].split('-')[2]
+        for weather_day_info in weather_data:
+            if weather_day_info['PKT'] != "":
+                weather_date = weather_day_info['PKT'].split('-')[2]
  
-            if weatherDayInfo['Max TemperatureC'] != "":
-                highTemp = int(weatherDayInfo['Max TemperatureC'])
-                highBar = "".join(['+'] * highTemp)
-                print(weatherDate, f"\033[1;31;40m{highBar}", f"\033[1;;40m{highTemp}C")
+            if weather_day_info['Max TemperatureC'] != "":
+                high_temp = int(weather_day_info['Max TemperatureC'])
+                high_bar = "".join(['+'] * high_temp)
+                print(weather_date, f"\033[1;31;40m{high_bar}", f"\033[1;;40m{high_temp}C")
 
-            if weatherDayInfo['Max TemperatureC'] != "":
-                lowTemp = int(weatherDayInfo['Min TemperatureC'])
-                lowBar = "".join(['+'] * lowTemp)
-                print(weatherDate, f"\033[1;34;40m{lowBar}", f"\033[1;;40m{lowTemp}C")
+            if weather_day_info['Max TemperatureC'] != "":
+                low_temp = int(weather_day_info['Min TemperatureC'])
+                low_bar = "".join(['+'] * low_temp)
+                print(weather_date, f"\033[1;34;40m{low_bar}", f"\033[1;;40m{low_temp}C")

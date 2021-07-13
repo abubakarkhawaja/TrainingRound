@@ -10,21 +10,22 @@ def main(args):
     Uses options given by command line argument.
     And calls their respective function.
     """
-    pathToDirectory = args.pathToDirectory
+    directory_path = args.pathToDirectory
+
     if args.e:
         print('\nWeather Data by Year:')
-        weather_by_year(pathToDirectory, date=args.e)
+        weather_by_year(directory_path, date=args.e)
         print('\n')
     if args.a:
         print('\nWeather Data by Year & Month:')
-        weather_by_year_month(pathToDirectory, date=args.a)
+        weather_by_year_month(directory_path, date=args.a)
         print('\n')
     if args.c:
         print('\nWeather Data by Year & Month with Coloured Bars')
-        weather_by_year_month_bar(pathToDirectory, date=args.c)
+        weather_by_year_month_bar(directory_path, date=args.c)
     if args.d:
         print('\nWeather Data by Year & Month with Coloured Bars (Bonus)')
-        weather_by_year_month_bar_bonus(pathToDirectory, date=args.d)
+        weather_by_year_month_bar_bonus(directory_path, date=args.d)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

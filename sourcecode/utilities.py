@@ -23,13 +23,13 @@ def get_weather_files(date: str, path: str) -> list[str]:
         print("File not found")
     else:
         if '/' in date:
-            monthNumber = int(date.split('/')[1])
-            month = calendar.month_abbr[monthNumber]
+            month_number = int(date.split('/')[1])
+            month = calendar.month_abbr[month_number]
             year = date.split('/')[0]
-            weatherFiles = [dir for dir in directory if year in dir and month in dir]        
+            weather_files = [dir for dir in directory if year in dir and month in dir]        
         else: 
-            weatherFiles = [dir for dir in directory if date in dir]
-        return weatherFiles
+            weather_files = [dir for dir in directory if date in dir]
+        return weather_files
 
 
 def get_weather_info(path: str) -> list[dict]:
@@ -42,13 +42,13 @@ def get_weather_info(path: str) -> list[dict]:
     @return
     :dict: returns list of dictionaries with data on weather file.
     """
-    weatherData = []
+    weather_data = []
     if not path:
         raise FileNotFoundError('File not found')
     else:
         with open(path, 'r') as csv_file:
-            csvReader = csv.DictReader(csv_file)
-            csvReader.fieldnames = [str(field).strip() for field in csvReader.fieldnames]
-            weatherData = list(csvReader)
+            csv_reader = csv.DictReader(csv_file)
+            csv_reader.fieldnames = [str(field).strip() for field in csv_reader.fieldnames]
+            weather_data = list(csv_reader)
             csv_file.flush()
-    return weatherData
+    return weather_data

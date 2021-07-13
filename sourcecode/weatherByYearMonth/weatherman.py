@@ -15,26 +15,26 @@ def weather_by_year_month(path: str, date: str) -> None:
     avg_lowest_temp = float('inf')
     avg_mean_humidity = float('-inf')
 
-    weatherfile = get_weather_files(date, path)
-    if weatherfile == []:
+    weather_file = get_weather_files(date, path)
+    if weather_file == []:
         print('No such record founnd')
     else:
-        fullPath = path + weatherfile[0]
-        weather_data = get_weather_info(fullPath)
+        full_path = path + weather_file[0]
+        weather_data = get_weather_info(full_path)
 
         total_max_temp = 0
         total_min_temp = 0
         total_mean_humidity = 0
         
-        for weatherDayInfo in weather_data:
-            if weatherDayInfo['Max TemperatureC'] != "":
-                total_max_temp += int(weatherDayInfo['Max TemperatureC'])
+        for weather_day_info in weather_data:
+            if weather_day_info['Max TemperatureC'] != "":
+                total_max_temp += int(weather_day_info['Max TemperatureC'])
             
-            if weatherDayInfo['Min TemperatureC'] != "":            
-                total_min_temp += int (weatherDayInfo['Min TemperatureC'])
+            if weather_day_info['Min TemperatureC'] != "":            
+                total_min_temp += int (weather_day_info['Min TemperatureC'])
             
-            if weatherDayInfo['Mean Humidity'] != "":
-                total_mean_humidity += int(weatherDayInfo['Mean Humidity'])
+            if weather_day_info['Mean Humidity'] != "":
+                total_mean_humidity += int(weather_day_info['Mean Humidity'])
         
         length = len(weather_data)
         avg_highest_temp = total_max_temp / length
@@ -42,5 +42,5 @@ def weather_by_year_month(path: str, date: str) -> None:
         avg_mean_humidity = total_mean_humidity / length
 
         print (f'Highest Average: {round(avg_highest_temp)}C')
-        print(f'Lowest Average:', f'{round(avg_lowest_temp)}C')
+        print(f'Lowest Average: {round(avg_lowest_temp)}C')
         print(f'Average Mean Humidity: {round(avg_mean_humidity)}%')

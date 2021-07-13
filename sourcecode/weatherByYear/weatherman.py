@@ -17,13 +17,13 @@ def weather_by_year(path: str, date: str) -> None:
     humidity = float('-inf')
     humidity_date = ""
 
-    weatherFiles = get_weather_files(date, path)     
-    if not weatherFiles:
+    weather_files = get_weather_files(date, path)     
+    if not weather_files:
         print('No Weather Date for these date.')
     else:
-        for weatherfile in weatherFiles:
-            fullPath = path + weatherfile
-            weather_data = get_weather_info(fullPath)
+        for weather_file in weather_files:
+            full_path = path + weather_file
+            weather_data = get_weather_info(full_path)
 
             max_temp =  float('-inf')
             max_temp_date = ""
@@ -32,35 +32,35 @@ def weather_by_year(path: str, date: str) -> None:
             max_humid =  float('-inf')
             max_humid_date = ""
             
-            for weatherDayInfo in weather_data:
-                if weatherDayInfo['PKT'] != "":
-                    weatherDate = weatherDayInfo['PKT']
+            for weather_day_info in weather_data:
+                if weather_day_info['PKT'] != "":
+                    weather_date = weather_day_info['PKT']
 
-                if weatherDayInfo['Max TemperatureC'] != "":
-                    temperature = int(weatherDayInfo['Max TemperatureC'])
+                if weather_day_info['Max TemperatureC'] != "":
+                    temperature = int(weather_day_info['Max TemperatureC'])
                     if temperature > max_temp:
                         max_temp = temperature
-                        monthNumber = int(weatherDate.split('-')[1])
-                        month = calendar.month_name[monthNumber]
-                        day = weatherDate.split('-')[2]
+                        month_number = int(weather_date.split('-')[1])
+                        month = calendar.month_name[month_number]
+                        day = weather_date.split('-')[2]
                         max_temp_date = month + " " + day
                 
-                if weatherDayInfo['Min TemperatureC'] != "":            
-                    temperature = int (weatherDayInfo['Min TemperatureC'])
+                if weather_day_info['Min TemperatureC'] != "":            
+                    temperature = int (weather_day_info['Min TemperatureC'])
                     if temperature < min_temp:
                         min_temp = temperature
-                        monthNumber = int(weatherDate.split('-')[1])
-                        month = calendar.month_name[monthNumber]
-                        day = weatherDate.split('-')[2]
+                        month_number = int(weather_date.split('-')[1])
+                        month = calendar.month_name[month_number]
+                        day = weather_date.split('-')[2]
                         min_temp_date = month + " " + day
                 
-                if weatherDayInfo['Max Humidity'] != "":
-                    humid = int(weatherDayInfo['Max Humidity'])
+                if weather_day_info['Max Humidity'] != "":
+                    humid = int(weather_day_info['Max Humidity'])
                     if humid > max_humid:
                         max_humid = humid
-                        monthNumber = int(weatherDate.split('-')[1])
-                        month = calendar.month_name[monthNumber]
-                        day = weatherDate.split('-')[2]
+                        month_number = int(weather_date.split('-')[1])
+                        month = calendar.month_name[month_number]
+                        day = weather_date.split('-')[2]
                         max_humid_date = month + " " + day
 
             if highest_temp < max_temp:

@@ -11,30 +11,30 @@ def weather_by_year_month_bar_bonus(path: str, date: str) -> None:
     :date str: Date entered by user as command line argument
     :path str: Contains path to weather files directory
     """
-    weatherfile = get_weather_files(date, path)
-    if weatherfile == []:
+    weather_file = get_weather_files(date, path)
+    if weather_file == []:
         print('No such record founnd')
     else:
-        fullPath = path + weatherfile[0]
-        weather_data = get_weather_info(fullPath)
+        full_path = path + weather_file[0]
+        weather_data = get_weather_info(full_path)
 
-        monthNumber = int(date.split('/')[1])
-        month = calendar.month_name[monthNumber]
+        month_number = int(date.split('/')[1])
+        month = calendar.month_name[month_number]
         year = date.split('/')[0]
         
-        print(month,year)
+        print(month, year)
         
-        for weatherDayInfo in weather_data:
-            if weatherDayInfo['PKT'] != "":
-                weatherDate = weatherDayInfo['PKT'].split('-')[2]
+        for weather_day_info in weather_data:
+            if weather_day_info['PKT'] != "":
+                weather_date = weather_day_info['PKT'].split('-')[2]
             
-            if weatherDayInfo['Max TemperatureC'] == "" \
-                or weatherDayInfo['Min TemperatureC'] == "":
+            if weather_day_info['Max TemperatureC'] == "" \
+                or weather_day_info['Min TemperatureC'] == "":
                 continue
 
-            highTemp = int(weatherDayInfo['Max TemperatureC'])
-            highBar = "".join(['+'] * highTemp)
-            lowTemp = int(weatherDayInfo['Min TemperatureC'])
-            lowBar = "".join(['+'] * lowTemp)
+            high_temp = int(weather_day_info['Max TemperatureC'])
+            high_bar = "".join(['+'] * high_temp)
+            low_temp = int(weather_day_info['Min TemperatureC'])
+            low_bar = "".join(['+'] * low_temp)
             
-            print(weatherDate, f"\033[;34;40m{lowBar}\033[;31;40m{highBar}", f"\033[;;40m{lowTemp}C - \033[;;40m{highTemp}C")
+            print(weather_date, f"\033[;34;40m{low_bar}\033[;31;40m{high_bar}", f"\033[;;40m{low_temp}C - \033[;;40m{high_temp}C")
