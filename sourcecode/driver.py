@@ -1,7 +1,7 @@
+from sourcecode.weatherByYearMonthBar.weatherman import WeatherManBar
+from sourcecode.weatherByYearMonthSingleBar.weatherman import WeatherManSingleBar 
 from sourcecode.weatherByYear.weatherman import WeatherManYear
 from sourcecode.weatherByYearMonth.weatherman import WeatherManYearMonth
-from sourcecode.weatherByYearMonthBar.weatherman import WeatherManBar
-from sourcecode.bonus.weatherman import WeatherManBonus 
 
 class Driver:
 
@@ -32,5 +32,5 @@ class Driver:
             obj = WeatherManBar()
             obj.weather_by_year_month_bar(self.directory_path, date)
         if option == 'd':
-            obj = WeatherManBonus()
-            obj.weather_by_year_month_bar_bonus(self.directory_path, date)
+            obj = WeatherManSingleBar()
+            obj.weather_by_year_month_single_bar(self.directory_path, date)
