@@ -1,9 +1,7 @@
 import unittest
 from sourcecode.weather_services import WeatherMan
 
-
-
-class TestUtilites(unittest.TestCase):
+class TestWeatherServices(unittest.TestCase):
 
     path = '/Users/abubakarkhawaja/Documents/weatherfiles/'
     obj = WeatherMan()
