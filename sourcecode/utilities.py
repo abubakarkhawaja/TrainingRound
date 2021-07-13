@@ -32,7 +32,7 @@ def get_weather_files(date: str, path: str) -> list[str]:
         return weatherFiles
 
 
-def get_weather_info(path: str) -> dict[str, dict]:
+def get_weather_info(path: str) -> list[dict]:
     """
     Gets directory path and read data within that file. 
     
@@ -40,15 +40,15 @@ def get_weather_info(path: str) -> dict[str, dict]:
     :path str: Contains path to weather file directory
 
     @return
-    :dict: returns dictionary with data on weather file.
+    :dict: returns list of dictionaries with data on weather file.
     """
-    weatherData = {}
+    weatherData = []
     if not path:
         raise FileNotFoundError('File not found')
     else:
         with open(path, 'r') as csv_file:
             csvReader = csv.DictReader(csv_file)
-            for row in csvReader:
-                weatherData[row['PKT']] = {column.strip(): value for column, value in row.items()}
+            csvReader.fieldnames = [str(field).strip() for field in csvReader.fieldnames]
+            weatherData = list(csvReader)
             csv_file.flush()
     return weatherData

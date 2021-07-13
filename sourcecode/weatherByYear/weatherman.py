@@ -30,30 +30,35 @@ def weather_by_year(path: str, date: str) -> None:
         max_humid =  float('-inf')
         max_humid_date = ""
         
-        for key in weather_data.keys():
-            if weather_data[key]['Max TemperatureC'] != "":
-                temp = int(weather_data[key]['Max TemperatureC'])
-                if temp > max_temp:
-                    max_temp = temp
-                    monthNumber = int(key.split('-')[1])
+        for weatherDayInfo in weather_data:
+            if weatherDayInfo['PKT'] != "":
+                weatherDate = weatherDayInfo['PKT']
+
+            if weatherDayInfo['Max TemperatureC'] != "":
+                temperature = int(weatherDayInfo['Max TemperatureC'])
+                if temperature > max_temp:
+                    max_temp = temperature
+                    monthNumber = int(weatherDate.split('-')[1])
                     month = calendar.month_name[monthNumber]
-                    day = key.split('-')[2]
+                    day = weatherDate.split('-')[2]
                     max_temp_date = month + " " + day
-            if weather_data[key]['Min TemperatureC'] != "":            
-                temp = int (weather_data[key]['Min TemperatureC'])
-                if temp < min_temp:
-                    min_temp = temp
-                    monthNumber = int(key.split('-')[1])
+            
+            if weatherDayInfo['Min TemperatureC'] != "":            
+                temperature = int (weatherDayInfo['Min TemperatureC'])
+                if temperature < min_temp:
+                    min_temp = temperature
+                    monthNumber = int(weatherDate.split('-')[1])
                     month = calendar.month_name[monthNumber]
-                    day = key.split('-')[2]
+                    day = weatherDate.split('-')[2]
                     min_temp_date = month + " " + day
-            if weather_data[key]['Max Humidity'] != "":
-                humid = int(weather_data[key]['Max Humidity'])
+            
+            if weatherDayInfo['Max Humidity'] != "":
+                humid = int(weatherDayInfo['Max Humidity'])
                 if humid > max_humid:
                     max_humid = humid
-                    monthNumber = int(key.split('-')[1])
+                    monthNumber = int(weatherDate.split('-')[1])
                     month = calendar.month_name[monthNumber]
-                    day = key.split('-')[2]
+                    day = weatherDate.split('-')[2]
                     max_humid_date = month + " " + day
 
         if highest_temp < max_temp:

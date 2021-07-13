@@ -6,7 +6,7 @@ class TestUtilites(unittest.TestCase):
     def test_get_weather_info(self):
         filePath = '/Users/abubakarkhawaja/Documents/weatherfiles/Murree_weather_2004_Aug.txt'
 
-        self.assertIsInstance(get_weather_info(filePath), dict)    
+        self.assertIsInstance(get_weather_info(filePath), list)    
         
         self.assertRaises(FileNotFoundError,get_weather_info,'')
 

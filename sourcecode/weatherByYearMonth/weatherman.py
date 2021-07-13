@@ -26,13 +26,15 @@ def weather_by_year_month(path: str, date: str) -> None:
         total_min_temp = 0
         total_mean_humidity = 0
         
-        for key in weather_data.keys():
-            if weather_data[key]['Max TemperatureC'] != "":
-                total_max_temp += int(weather_data[key]['Max TemperatureC'])
-            if weather_data[key]['Min TemperatureC'] != "":            
-                total_min_temp += int (weather_data[key]['Min TemperatureC'])
-            if weather_data[key]['Mean Humidity'] != "":
-                total_mean_humidity += int(weather_data[key]['Mean Humidity'])
+        
+        for weatherDayInfo in weather_data:
+
+            if weatherDayInfo['Max TemperatureC'] != "":
+                total_max_temp += int(weatherDayInfo['Max TemperatureC'])
+            if weatherDayInfo['Min TemperatureC'] != "":            
+                total_min_temp += int (weatherDayInfo['Min TemperatureC'])
+            if weatherDayInfo['Mean Humidity'] != "":
+                total_mean_humidity += int(weatherDayInfo['Mean Humidity'])
         
         length = len(weather_data)
         avg_highest_temp = total_max_temp / length

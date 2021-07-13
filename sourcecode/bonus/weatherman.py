@@ -24,16 +24,17 @@ def weather_by_year_month_bar_bonus(path: str, date: str) -> None:
         
         print(month,year)
         
-        for key in weather_data.keys():
-            day = key.split('-')[2]
+        for weatherDayInfo in weather_data:
+            if weatherDayInfo['PKT'] != "":
+                weatherDate = weatherDayInfo['PKT'].split('-')[2]
             
-            if weather_data[key]['Max TemperatureC'] == "" \
-                or weather_data[key]['Min TemperatureC'] == "":
+            if weatherDayInfo['Max TemperatureC'] == "" \
+                or weatherDayInfo['Min TemperatureC'] == "":
                 continue
 
-            highTemp = int(weather_data[key]['Max TemperatureC'])
+            highTemp = int(weatherDayInfo['Max TemperatureC'])
             highBar = "".join(['+'] * highTemp)
-            lowTemp = int(weather_data[key]['Min TemperatureC'])
+            lowTemp = int(weatherDayInfo['Min TemperatureC'])
             lowBar = "".join(['+'] * lowTemp)
             
-            print(day, f"\033[;34;40m{lowBar}\033[;31;40m{highBar}", f"\033[;;40m{lowTemp}C - \033[;;40m{highTemp}C")
+            print(weatherDate, f"\033[;34;40m{lowBar}\033[;31;40m{highBar}", f"\033[;;40m{lowTemp}C - \033[;;40m{highTemp}C")

@@ -25,15 +25,17 @@ def weather_by_year_month_bar(path: str, date: str) -> None:
         
         print(month,year)
         
-        for key in weather_data.keys():
-            day = key.split('-')[2]
-            if weather_data[key]['Max TemperatureC'] != "":
-                highTemp = int(weather_data[key]['Max TemperatureC'])
+        for weatherDayInfo in weather_data:
+            if weatherDayInfo['PKT'] != "":
+                weatherDate = weatherDayInfo['PKT'].split('-')[2]
+ 
+            if weatherDayInfo['Max TemperatureC'] != "":
+                highTemp = int(weatherDayInfo['Max TemperatureC'])
                 highBar = "".join(['+'] * highTemp)
-                print(day, f"\033[1;31;40m{highBar}", f"\033[1;;40m{highTemp}C")
+                print(weatherDate, f"\033[1;31;40m{highBar}", f"\033[1;;40m{highTemp}C")
 
-            if weather_data[key]['Max TemperatureC'] != "":
-                lowTemp = int(weather_data[key]['Min TemperatureC'])
+            if weatherDayInfo['Max TemperatureC'] != "":
+                lowTemp = int(weatherDayInfo['Min TemperatureC'])
                 lowBar = "".join(['+'] * lowTemp)
                 
-                print(day, f"\033[1;34;40m{lowBar}", f"\033[1;;40m{lowTemp}C")
+                print(weatherDate, f"\033[1;34;40m{lowBar}", f"\033[1;;40m{lowTemp}C")
