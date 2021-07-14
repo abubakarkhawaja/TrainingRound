@@ -2,8 +2,9 @@ import calendar, csv, os
 
 from sourcecode.data_parser import DataParser
 
+
 class FileHandling:
-    def get_weather_files(self, date: str, path: str) -> list[str]:
+    def get_weather_files(date: str, path: str) -> list[str]:
         """
         Gets date and directory path. 
         Base on these returns file names.
@@ -27,12 +28,13 @@ class FileHandling:
                 month_number = int(date.split('/')[1])
                 month = calendar.month_abbr[month_number]
                 year = date.split('/')[0]
+                
                 weather_files = [filename for filename in directory if year in filename and month in filename]        
             else: 
                 weather_files = [filename for filename in directory if date in filename]
             return weather_files
 
-    def get_weather_info(self, path: str) -> list[dict]:
+    def get_weather_info(path: str) -> list[dict]:
         """
         Gets directory path and read data within that file. 
         
@@ -42,12 +44,12 @@ class FileHandling:
         @return
         :dict: returns list of dictionaries with data on weather file.
         """
-        weather_data = []
+        weather_records = []
         if not path:
             raise FileNotFoundError('File not found')
         else:
             with open(path, 'r') as csv_file:
                 csv_reader = csv.DictReader(csv_file)
-                weather_data = DataParser.data_parser(csv_reader)
+                weather_records = DataParser.data_parser(csv_reader)
                 csv_file.flush()
-        return weather_data
+        return weather_records

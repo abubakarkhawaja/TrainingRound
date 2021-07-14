@@ -1,5 +1,6 @@
 from csv import DictReader
 
+
 class DataParser:
     def data_parser(csv_reader: DictReader) -> dict:
         """
@@ -15,5 +16,5 @@ class DataParser:
             print('Empty file')
         else:
             csv_reader.fieldnames = [str(field).strip() for field in csv_reader.fieldnames]
-            weather_data = list(csv_reader)
-        return weather_data
+            weather_records = list(csv_reader)
+        return weather_records

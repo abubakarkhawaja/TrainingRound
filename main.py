@@ -1,30 +1,37 @@
 import argparse
 
-from sourcecode.driver import Driver
+from sourcecode.weather_factory import WeatherFactory
 
-class Main:
-    def main(args):
-        """
+
+class Driver:
+    def main(args: argparse.Namespace) -> None:
+        """        
         Uses options given by command line argument.
         And calls their respective function.
+        
+        @params
+        :args argparse.Namespace: contains sequence of arguments with values.
         """
         directory_path = args.pathToDirectory
-        driver = Driver(directory_path)
+        weather_factory = WeatherFactory(directory_path)
 
         if args.e:
             print('\nWeather Data by Year:')
-            driver.getReport('e', args.e)
+            weather_factory.get_report('e', args.e)
             print('\n')
+
         if args.a:
-            print('\nWeather Data by Year & Month:')
-            driver.getReport('a', args.a)
+            print('\nAverage Weather Data of Month:')
+            weather_factory.get_report('a', args.a)
             print('\n')
+        
         if args.c:
-            print('\nWeather Data by Year & Month with Coloured Bars')
-            driver.getReport('c', args.c)
+            print('\nDaily Weather Data with Seperate Bar')
+            weather_factory.get_report('c', args.c)
+        
         if args.d:
-            print('\nWeather Data by Year & Month with Single Coloured Bars')
-            driver.getReport('d', args.d)
+            print('\nDaily Weather Data with Single Bar')
+            weather_factory.get_report('d', args.d)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -35,4 +42,4 @@ if __name__ == "__main__":
     parser.add_argument("-d", help="Weather Data by Month & Year with Bar Bonus. i.e. -d 2004/8")
     args = parser.parse_args()
 
-    Main.main(args)
+    Driver.main(args)

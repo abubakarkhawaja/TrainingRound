@@ -1,9 +1,11 @@
 from sourcecode.filehandling import FileHandling
-from sourcecode.report_calculator import ReportCalculator
 from sourcecode.report_generator import ReportGenerator
+from sourcecode.weather_record_parser import WeatherRecordParser
+
 
 class WeatherManYear(FileHandling):
-    report = {}
+    def __init__(self) -> None:
+        self.report = {}
 
     def weather_by_year(self, path: str, date: str) -> None:
         """
@@ -13,12 +15,12 @@ class WeatherManYear(FileHandling):
         :date str: Date entered by user as command line argument
         :path str: Contains path to weather files directory
         """
-        weather_files = self.get_weather_files(date, path)     
+        weather_files = FileHandling.get_weather_files(date, path)    
+        
         if not weather_files:
             print('No Weather Date for these date.')
         else:
-            for weather_file in weather_files:
-                full_path = path + weather_file
-                weather_data = self.get_weather_info(full_path)
-                self.report = ReportCalculator.calculate_report_year(weather_data)
+            record_parser = WeatherRecordParser()
+            self.report = record_parser.parse_year_record(weather_files, path)
+            
             ReportGenerator.generate_report_year(self.report)
