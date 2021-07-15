@@ -1,6 +1,6 @@
 import argparse
 
-from sourcecode.weather_factory import WeatherFactory
+from sourcecode.weather_report_controller import WeatherReportController
 
 
 class Driver:
@@ -13,8 +13,8 @@ class Driver:
         :args argparse.Namespace: contains sequence of arguments with values.
         """
         directory_path = args.pathToDirectory
-        weather_factory = WeatherFactory(directory_path)
-
+        weather_factory = WeatherReportController(directory_path)
+        
         if args.e:
             print('\nWeather Data by Year:')
             weather_factory.get_report('e', args.e)

@@ -1,8 +1,8 @@
 from csv import DictReader
 
 
-class DataParser:
-    def data_parser(csv_reader: DictReader) -> dict:
+class WeatherRecordsParser:
+    def weather_records_parser(csv_reader: DictReader) -> dict:
         """
         Cleans and converts data to its appropriate datatype.
 
@@ -12,6 +12,7 @@ class DataParser:
         @return
         :dict: dictionary with column name as key and their values
         """
+        weather_records = []
         if not csv_reader:
             print('Empty file')
         else:

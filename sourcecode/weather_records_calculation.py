@@ -1,10 +1,11 @@
 import calendar
 
-from sourcecode.filehandling import FileHandling
+from sourcecode.weather_records_reader import WeatherRecordsReader
 
 
-class WeatherRecordParser:
+class WeatherRecordsCalculation:
     def __init__(self) -> None:
+        """Constructor for initializing reports"""
         self.year_report = {
             'highest_temp': float('-inf'),
             'highest_temp_date': "",
@@ -20,21 +21,19 @@ class WeatherRecordParser:
             'avg_mean_humidity': float('-inf'),
         }
 
-    def parse_year_record(self, weather_files: list, path: str) -> dict:
+    def calculate_year_record(self, weather_files: list) -> dict:
         """
         Calculates Highest Temperature, Lowest Temperature
         and Humidity.
 
         @params
-        :weather_files list: hold list of file names.
-        :path str: absolute path to directory of weather files.
+        :weather_files list: hold list of files path.
 
         @return
         :dict: contains report data
         """
         for weather_file in weather_files:
-            full_path = path + weather_file
-            weather_records = FileHandling.get_weather_info(full_path)
+            weather_records = WeatherRecordsReader.get_weather_info(weather_file)
 
             for weather_day_info in weather_records:                
                 self.set_max_temperature(weather_day_info)
@@ -43,13 +42,13 @@ class WeatherRecordParser:
 
         return self.year_report
 
-    def parse_month_record(self, weather_records: dict) -> dict:
+    def calculate_month_record(self, weather_file: str) -> dict:
         """
         Calculates Highest Temperature, Lowest Temperature
         and Humidity.
 
         @params
-        :weather_records dict: hold field names as key and their values.
+        :weather_file str: hold file path.
         
         @return
         :dict: contains report data
@@ -57,7 +56,8 @@ class WeatherRecordParser:
         total_max_temp = 0
         total_min_temp = 0
         total_mean_humidity = 0
-            
+
+        weather_records = WeatherRecordsReader.get_weather_info(weather_file)    
         for weather_day_info in weather_records:
             if weather_day_info['Max TemperatureC'] != "":
                 total_max_temp += int(weather_day_info['Max TemperatureC'])
