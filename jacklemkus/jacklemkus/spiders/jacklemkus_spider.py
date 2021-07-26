@@ -1,41 +1,17 @@
-import scrapy
+from scrapy.spiders import Spider, Rule
+from scrapy.linkextractors import LinkExtractor
 
-from jacklemkus.spiders.product_page_parser import ProductPageParser
+from product_page_parser import ProductPageParser
 
 
-class ItemSpider(scrapy.Spider):
+class ItemSpider(Spider):
     name = 'jacklemkus'
+    allowed_domains = ['jacklemkus.com']
     start_urls = ['https://www.jacklemkus.com']
-
-    def parse(self, response):
-        """
-        Collects links of all catagories from menu bar
-
-        @params
-        :response HtmlResponse: Response of HTML page
-
-        @yield
-        :dict: Dictionary of Product Information
-        """
-        menu_items = response.xpath(f'//*[@id="nav"]/li')
-        for menu_item in menu_items:
-            menu_page_url = menu_item.css('a::attr(href)').get()
-            yield response.follow(menu_page_url, callback= self.parse_menu_page)
-
-    def parse_menu_page(self, response):
-        """
-        Collects url of all paginations within a page and follows them
-
-        @params
-        :response HtmlResponse: Response of HTML page
-
-        @yield
-        :dict: Dictionary of Product Information
-        """
-        products_pagination_urls = set(response.css('ol.pagination.left li a::attr(href)').getall())
-        products_pagination_urls.add(response.url)
-        for pagination_url in products_pagination_urls:
-            yield response.follow(pagination_url, callback= self.parse_paginations) 
+    rules = [
+        Rule(LinkExtractor(),
+        callback='parse_paginations')
+    ]
 
     def parse_paginations(self, response):
         """
@@ -62,4 +38,5 @@ class ItemSpider(scrapy.Spider):
         :dict: Dictionary of Product Information
         """
         product_page_parser = ProductPageParser(response)
+        product_page_parser.set_product_info()
         yield product_page_parser.get_product_info()

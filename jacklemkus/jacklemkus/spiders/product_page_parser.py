@@ -9,8 +9,6 @@ class ProductPageParser:
         self.product_info = {}
         self.response = response
 
-        self.set_product_info()
-
     def set_product_info(self) -> None:
         """
         Sets attributes of product information
