@@ -33,7 +33,7 @@ class WeatherReportsDisplay():
         :path str: Contains path to weather files directory.
         :date str: Date entered by user as command line argument.
         """
-        weather_files = WeatherRecordsReader.get_weather_files(date, path)    
+        weather_files = WeatherRecordsReader.weather_files(date, path)    
         
         if not weather_files:
             print('No Weather Date for these date.')
@@ -54,7 +54,7 @@ class WeatherReportsDisplay():
         :path str: Contains path to weather files directory.
         :date str: Date entered by user as command line argument.
         """
-        weather_file = WeatherRecordsReader.get_weather_files(date, path)    
+        weather_file = WeatherRecordsReader.weather_files(date, path)    
         
         if not weather_file:
             print('No such record found!')
@@ -75,13 +75,13 @@ class WeatherReportsDisplay():
         :path str: Contains path to weather files directory.
         :date str: Date entered by user as command line argument.
         """
-        weather_file = WeatherRecordsReader.get_weather_files(date, path)    
+        weather_file = WeatherRecordsReader.weather_files(date, path)    
         
         if not weather_file:
             print('No such record found')
             return 
 
-        weather_records = WeatherRecordsReader.get_weather_info(weather_file)
+        weather_records = WeatherRecordsReader.weather_info(weather_file)
 
         self.print_month_year(date)
             
@@ -100,13 +100,13 @@ class WeatherReportsDisplay():
         :path str: Contains path to weather files directory.
         :date str: Date entered by user as command line argument.
         """
-        weather_file = WeatherRecordsReader.get_weather_files(date, path)    
+        weather_file = WeatherRecordsReader.weather_files(date, path)    
         
         if not weather_file:
             print('No such record founnd')
             return
 
-        weather_records = WeatherRecordsReader.get_weather_info(weather_file)
+        weather_records = WeatherRecordsReader.weather_info(weather_file)
 
         self.print_month_year(date)
             

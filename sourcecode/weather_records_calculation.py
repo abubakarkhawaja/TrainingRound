@@ -33,12 +33,12 @@ class WeatherRecordsCalculation:
         :dict: contains report data
         """
         for weather_file in weather_files:
-            weather_records = WeatherRecordsReader.get_weather_info(weather_file)
+            weather_records = WeatherRecordsReader.weather_info(weather_file)
 
             for weather_day_info in weather_records:                
-                self.set_max_temperature(weather_day_info)
-                self.set_min_temperature(weather_day_info)
-                self.set_max_humidity(weather_day_info)
+                self.max_temperature(weather_day_info)
+                self.min_temperature(weather_day_info)
+                self.max_humidity(weather_day_info)
 
         return self.year_report
 
@@ -57,7 +57,7 @@ class WeatherRecordsCalculation:
         total_min_temp = 0
         total_mean_humidity = 0
 
-        weather_records = WeatherRecordsReader.get_weather_info(weather_file)    
+        weather_records = WeatherRecordsReader.weather_info(weather_file)    
         for weather_day_info in weather_records:
             if weather_day_info['Max TemperatureC'] != "":
                 total_max_temp += int(weather_day_info['Max TemperatureC'])
@@ -90,7 +90,7 @@ class WeatherRecordsCalculation:
         self.month_report['avg_lowest_temp'] = total_min_temp // length
         self.month_report['avg_mean_humidity'] = total_mean_humidity // length
 
-    def set_max_humidity(self, weather_day_info: dict) -> None:
+    def max_humidity(self, weather_day_info: dict) -> None:
         """
         Assigns maximum humidity and its date in yearly report dictionary.
 
@@ -106,10 +106,10 @@ class WeatherRecordsCalculation:
             self.year_report['humidity'] = humid
 
             weather_date = weather_day_info['PKT']
-            month, day = self.get_date(weather_date)
+            month, day = self.date(weather_date)
             self.year_report['humidity_date'] = month + " " + day
 
-    def set_min_temperature(self, weather_day_info: dict) -> None:
+    def min_temperature(self, weather_day_info: dict) -> None:
         """
         Assigns maximum humidity and its date in yearly report dictionary.
 
@@ -125,10 +125,10 @@ class WeatherRecordsCalculation:
             self.year_report['lowest_temp'] = temperature
 
             weather_date = weather_day_info['PKT']            
-            month, day = self.get_date(weather_date)
+            month, day = self.date(weather_date)
             self.year_report['lowest_temp_date'] = month + " " + day
 
-    def set_max_temperature(self, weather_day_info: dict) -> None:
+    def max_temperature(self, weather_day_info: dict) -> None:
         """
         Assigns maximum humidity and its date in yearly report dictionary.
 
@@ -144,10 +144,10 @@ class WeatherRecordsCalculation:
             self.year_report['highest_temp'] = temperature
 
             weather_date = weather_day_info['PKT']            
-            month, day = self.get_date(weather_date)
+            month, day = self.date(weather_date)
             self.year_report['highest_temp_date'] = month + " " + day
 
-    def get_date(self, weather_date: str) -> list[str, str]:
+    def date(self, weather_date: str) -> list[str, str]:
         """
         Seperates day and month from date.
 

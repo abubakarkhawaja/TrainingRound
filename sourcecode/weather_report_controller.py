@@ -11,9 +11,9 @@ class WeatherReportController:
         @params
         :directory_path str: Path to folder of weather files
         """
-        self.files_paths = self.get_complete_paths(directory_path)
+        self.files_paths = self.complete_paths(directory_path)
 
-    def get_report(self, option: str, date: str) -> None:
+    def report(self, option: str, date: str) -> None:
         """
         Calls respective class according to option.
         
@@ -34,7 +34,7 @@ class WeatherReportController:
         if option == 'd':
             weather_report.display_report_single_bar(self.files_paths, date)
     
-    def get_complete_paths(self, directory_path):
+    def complete_paths(self, directory_path):
         try:
             files_names = os.listdir(directory_path)
         except IOError:

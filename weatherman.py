@@ -17,21 +17,21 @@ class Driver:
         
         if args.e:
             print('\nWeather Data by Year:')
-            weather_factory.get_report('e', args.e)
+            weather_factory.report('e', args.e)
             print('\n')
 
         if args.a:
             print('\nAverage Weather Data of Month:')
-            weather_factory.get_report('a', args.a)
+            weather_factory.report('a', args.a)
             print('\n')
         
         if args.c:
             print('\nDaily Weather Data with Seperate Bar')
-            weather_factory.get_report('c', args.c)
+            weather_factory.report('c', args.c)
         
         if args.d:
             print('\nDaily Weather Data with Single Bar')
-            weather_factory.get_report('d', args.d)
+            weather_factory.report('d', args.d)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

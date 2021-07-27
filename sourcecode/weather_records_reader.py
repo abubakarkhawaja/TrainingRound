@@ -4,7 +4,7 @@ from sourcecode.weather_records_parser import WeatherRecordsParser
 
 
 class WeatherRecordsReader:
-    def get_weather_files(date: str, path: list) -> list[str]:
+    def weather_files(date: str, path: list) -> list[str]:
         """
         Gets date and directory path. 
         Base on these returns file names.
@@ -27,7 +27,7 @@ class WeatherRecordsReader:
         weather_files = [file_path for file_path in path if date in file_path]
         return weather_files
 
-    def get_weather_info(path: str) -> list[dict]:
+    def weather_info(path: str) -> list[dict]:
         """
         Gets directory path and read data within that file. 
         
