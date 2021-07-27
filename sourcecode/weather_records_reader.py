@@ -19,9 +19,12 @@ class WeatherRecordsReader:
         weather_files = []
         if '/' in date:
             month, year = split_date(date)
-            weather_files = [file_path for file_path in path if year in file_path and month in file_path][0]        
-        else:
-            weather_files = [file_path for file_path in path if date in file_path]
+            weather_files = [file_path for file_path in path if year in file_path and month in file_path]
+            if not weather_files:
+                return
+            return weather_files[0]
+        
+        weather_files = [file_path for file_path in path if date in file_path]
         return weather_files
 
     def get_weather_info(path: str) -> list[dict]:
@@ -37,11 +40,11 @@ class WeatherRecordsReader:
         weather_records = []
         if not path:
             raise FileNotFoundError('File not found')
-        else:
-            with open(path, 'r') as csv_file:
-                csv_reader = csv.DictReader(csv_file)
-                weather_records = WeatherRecordsParser.weather_records_parser(csv_reader)
-                csv_file.flush()
+        
+        with open(path, 'r') as csv_file:
+            csv_reader = csv.DictReader(csv_file)
+            weather_records = WeatherRecordsParser.weather_records_parser(csv_reader)
+            csv_file.flush()
         return weather_records
 
 def split_date(date: str) -> list[str, str]:
@@ -57,5 +60,4 @@ def split_date(date: str) -> list[str, str]:
     month_number = int(date.split('/')[1])
     month = calendar.month_abbr[month_number]
     year = date.split('/')[0]
-
-    return month, year
+    return [month, year]

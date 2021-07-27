@@ -97,15 +97,17 @@ class WeatherRecordsCalculation:
         @params
         :weather_day_info dict: Dictionary of Weather Record
         """
-        if weather_day_info['Max Humidity'] != "":
-            humid = int(weather_day_info['Max Humidity'])
+        if weather_day_info['Max Humidity'] == "":
+            return
 
-            if humid > self.year_report['humidity']:
-                self.year_report['humidity'] = humid
+        humid = int(weather_day_info['Max Humidity'])
 
-                weather_date = weather_day_info['PKT']
-                month, day = self.get_date(weather_date)
-                self.year_report['humidity_date'] = month + " " + day
+        if humid > self.year_report['humidity']:
+            self.year_report['humidity'] = humid
+
+            weather_date = weather_day_info['PKT']
+            month, day = self.get_date(weather_date)
+            self.year_report['humidity_date'] = month + " " + day
 
     def set_min_temperature(self, weather_day_info: dict) -> None:
         """
@@ -114,15 +116,17 @@ class WeatherRecordsCalculation:
         @params
         :weather_day_info dict: Dictionary of Weather Record
         """
-        if weather_day_info['Min TemperatureC'] != "":            
-            temperature = int(weather_day_info['Min TemperatureC'])
+        if weather_day_info['Min TemperatureC'] == "":
+            return 
 
-            if temperature < self.year_report['lowest_temp']:
-                self.year_report['lowest_temp'] = temperature
+        temperature = int(weather_day_info['Min TemperatureC'])
 
-                weather_date = weather_day_info['PKT']            
-                month, day = self.get_date(weather_date)
-                self.year_report['lowest_temp_date'] = month + " " + day
+        if temperature < self.year_report['lowest_temp']:
+            self.year_report['lowest_temp'] = temperature
+
+            weather_date = weather_day_info['PKT']            
+            month, day = self.get_date(weather_date)
+            self.year_report['lowest_temp_date'] = month + " " + day
 
     def set_max_temperature(self, weather_day_info: dict) -> None:
         """
@@ -131,15 +135,17 @@ class WeatherRecordsCalculation:
         @params
         :weather_day_info dict: Dictionary of Weather Record
         """
-        if weather_day_info['Max TemperatureC'] != "":
-            temperature = int(weather_day_info['Max TemperatureC'])
+        if weather_day_info['Max TemperatureC'] == "":
+            return
+            
+        temperature = int(weather_day_info['Max TemperatureC'])
 
-            if temperature > self.year_report['highest_temp']:
-                self.year_report['highest_temp'] = temperature
+        if temperature > self.year_report['highest_temp']:
+            self.year_report['highest_temp'] = temperature
 
-                weather_date = weather_day_info['PKT']            
-                month, day = self.get_date(weather_date)
-                self.year_report['highest_temp_date'] = month + " " + day
+            weather_date = weather_day_info['PKT']            
+            month, day = self.get_date(weather_date)
+            self.year_report['highest_temp_date'] = month + " " + day
 
     def get_date(self, weather_date: str) -> list[str, str]:
         """
@@ -154,4 +160,4 @@ class WeatherRecordsCalculation:
         month_number = int(weather_date.split('-')[1])
         month = calendar.month_name[month_number]
         day = weather_date.split('-')[2]
-        return month, day
+        return [month, day]

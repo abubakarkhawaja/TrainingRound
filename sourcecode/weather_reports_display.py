@@ -3,6 +3,9 @@ import calendar
 from sourcecode.weather_records_calculation import WeatherRecordsCalculation
 from sourcecode.weather_records_reader import WeatherRecordsReader
 
+BLUE_COLOR = "\033[;34;40m"
+RED_COLOR = "\033[;31;40m"
+WHITE_COLOR = "\033[;;40m"
 
 class WeatherReportsDisplay():
     def __init__(self) -> None:
@@ -34,9 +37,10 @@ class WeatherReportsDisplay():
         
         if not weather_files:
             print('No Weather Date for these date.')
-        else:
-            record_calculator = WeatherRecordsCalculation()
-            self.year_report = record_calculator.calculate_year_record(weather_files)
+            return
+
+        record_calculator = WeatherRecordsCalculation()
+        self.year_report = record_calculator.calculate_year_record(weather_files)
 
         print (f'Highest: {self.year_report["highest_temp"]}C on {self.year_report["highest_temp_date"]}')
         print(f'Lowest: {self.year_report["lowest_temp"]}C on {self.year_report["lowest_temp_date"]}')
@@ -53,14 +57,15 @@ class WeatherReportsDisplay():
         weather_file = WeatherRecordsReader.get_weather_files(date, path)    
         
         if not weather_file:
-            print('No such record founnd')
-        else:
-            record_calculator = WeatherRecordsCalculation()
-            self.month_report = record_calculator.calculate_month_record(weather_file)
-        
-            print (f'Highest Average: {self.month_report["avg_highest_temp"]}C')
-            print(f'Lowest Average: {self.month_report["avg_lowest_temp"]}C')
-            print(f'Average Mean Humidity: {self.month_report["avg_mean_humidity"]}%')
+            print('No such record found!')
+            return
+
+        record_calculator = WeatherRecordsCalculation()
+        self.month_report = record_calculator.calculate_month_record(weather_file)
+    
+        print (f'Highest Average: {self.month_report["avg_highest_temp"]}C')
+        print(f'Lowest Average: {self.month_report["avg_lowest_temp"]}C')
+        print(f'Average Mean Humidity: {self.month_report["avg_mean_humidity"]}%')
 
     def display_report_bar(self, path: str, date: str) -> None:
         """ 
@@ -73,18 +78,19 @@ class WeatherReportsDisplay():
         weather_file = WeatherRecordsReader.get_weather_files(date, path)    
         
         if not weather_file:
-            print('No such record founnd')
-        else:
-            weather_records = WeatherRecordsReader.get_weather_info(weather_file)
+            print('No such record found')
+            return 
 
-            self.print_month_year(date)
-                
-            for weather_day_info in weather_records:
-                if weather_day_info['PKT'] != "":
-                    weather_date = weather_day_info['PKT'].split('-')[2]
+        weather_records = WeatherRecordsReader.get_weather_info(weather_file)
 
-                self.show_high_temperature(weather_day_info, weather_date)
-                self.show_low_temperature(weather_day_info, weather_date)
+        self.print_month_year(date)
+            
+        for weather_day_info in weather_records:
+            if weather_day_info['PKT'] != "":
+                weather_date = weather_day_info['PKT'].split('-')[2]
+
+            self.show_high_temperature(weather_day_info, weather_date)
+            self.show_low_temperature(weather_day_info, weather_date)
 
     def display_report_single_bar(self, path: str, date: str) -> None:
         """
@@ -98,31 +104,28 @@ class WeatherReportsDisplay():
         
         if not weather_file:
             print('No such record founnd')
-        else:
-            weather_records = WeatherRecordsReader.get_weather_info(weather_file)
+            return
 
-            self.print_month_year(date)
+        weather_records = WeatherRecordsReader.get_weather_info(weather_file)
+
+        self.print_month_year(date)
+            
+        for weather_day_info in weather_records:
+            if weather_day_info['PKT'] != "":
+                weather_date = weather_day_info['PKT'].split('-')[2]
                 
-            for weather_day_info in weather_records:
-                if weather_day_info['PKT'] != "":
-                    weather_date = weather_day_info['PKT'].split('-')[2]
-                    
-                if (weather_day_info['Max TemperatureC'] == "" or 
-                weather_day_info['Min TemperatureC'] == ""):
-                    continue
+            if (weather_day_info['Max TemperatureC'] == "" or 
+            weather_day_info['Min TemperatureC'] == ""):
+                continue
 
-                high_temp = int(weather_day_info['Max TemperatureC'])
-                high_bar = self.create_bar(high_temp)
-                low_temp = int(weather_day_info['Min TemperatureC'])
-                low_bar = self.create_bar(low_temp)
-                    
-                self.display(weather_date, high_temp, high_bar, low_temp, low_bar)
+            high_temp = int(weather_day_info['Max TemperatureC'])
+            high_bar = self.create_bar(high_temp)
+            low_temp = int(weather_day_info['Min TemperatureC'])
+            low_bar = self.create_bar(low_temp)
+                
+            self.display(weather_date, high_temp, high_bar, low_temp, low_bar)
 
-    def display(
-            self, weather_date: str, 
-            high_temp: int, high_bar: str, 
-            low_temp: int, low_bar: str
-    ) -> None:
+    def display(self, weather_date: str, high_temp: int, high_bar: str, low_temp: int, low_bar: str) -> None:
         """
         Show two different types of bars on same line of different
         colors.
@@ -136,8 +139,8 @@ class WeatherReportsDisplay():
         """
         print(
             weather_date
-            , f"\033[;34;40m{low_bar}\033[;31;40m{high_bar}"
-            , f"\033[;;40m{low_temp}C - \033[;;40m{high_temp}C"
+            , f"{BLUE_COLOR}{low_bar}{RED_COLOR}{high_bar}"
+            , f"{WHITE_COLOR}{low_temp}C - {WHITE_COLOR}{high_temp}C"
         )
 
     def show_low_temperature(self, weather_day_info: dict, weather_date: str) -> None:
@@ -152,7 +155,7 @@ class WeatherReportsDisplay():
             low_temp = int(weather_day_info['Min TemperatureC'])
             low_bar = self.create_bar(low_temp)
             
-            print(weather_date, f"\033[1;34;40m{low_bar}", f"\033[1;;40m{low_temp}C")
+            print(weather_date, f"{BLUE_COLOR}{low_bar}", f"{WHITE_COLOR}{low_temp}C")
 
     def show_high_temperature(self, weather_day_info: dict, weather_date: str) -> None:
         """
@@ -166,7 +169,7 @@ class WeatherReportsDisplay():
             high_temp = int(weather_day_info['Max TemperatureC'])
             high_bar = self.create_bar(high_temp)
 
-            print(weather_date, f"\033[1;31;40m{high_bar}", f"\033[1;;40m{high_temp}C")
+            print(weather_date, f"{RED_COLOR}{high_bar}", f"{WHITE_COLOR}{high_temp}C")
 
     def create_bar(self, size_of_bar: int) -> str:
         """

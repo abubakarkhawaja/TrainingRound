@@ -15,7 +15,8 @@ class WeatherRecordsParser:
         weather_records = []
         if not csv_reader:
             print('Empty file')
-        else:
-            csv_reader.fieldnames = [str(field).strip() for field in csv_reader.fieldnames]
-            weather_records = list(csv_reader)
+            return
+        
+        csv_reader.fieldnames = [str(field).strip() for field in csv_reader.fieldnames]
+        weather_records = list(csv_reader)
         return weather_records
