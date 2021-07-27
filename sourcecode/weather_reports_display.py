@@ -151,11 +151,13 @@ class WeatherReportsDisplay():
         :weather_day_info dict: Contains weather record of day.
         :weather_date str: Contains day of month.
         """
-        if weather_day_info['Min TemperatureC'] != "":
-            low_temp = int(weather_day_info['Min TemperatureC'])
-            low_bar = self.create_bar(low_temp)
-            
-            print(weather_date, f"{BLUE_COLOR}{low_bar}", f"{WHITE_COLOR}{low_temp}C")
+        if weather_day_info['Min TemperatureC'] == "":
+            return
+
+        low_temp = int(weather_day_info['Min TemperatureC'])
+        low_bar = self.create_bar(low_temp)
+        
+        print(weather_date, f"{BLUE_COLOR}{low_bar}", f"{WHITE_COLOR}{low_temp}C")
 
     def show_high_temperature(self, weather_day_info: dict, weather_date: str) -> None:
         """
@@ -165,11 +167,13 @@ class WeatherReportsDisplay():
         :weather_day_info dict: Contains weather record of day.
         :weather_date str: Contains day of month.
         """
-        if weather_day_info['Max TemperatureC'] != "":
-            high_temp = int(weather_day_info['Max TemperatureC'])
-            high_bar = self.create_bar(high_temp)
+        if weather_day_info['Max TemperatureC'] == "":
+            return
 
-            print(weather_date, f"{RED_COLOR}{high_bar}", f"{WHITE_COLOR}{high_temp}C")
+        high_temp = int(weather_day_info['Max TemperatureC'])
+        high_bar = self.create_bar(high_temp)
+
+        print(weather_date, f"{RED_COLOR}{high_bar}", f"{WHITE_COLOR}{high_temp}C")
 
     def create_bar(self, size_of_bar: int) -> str:
         """
