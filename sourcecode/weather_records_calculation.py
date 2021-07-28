@@ -1,6 +1,7 @@
 import calendar
+from datetime import datetime
 
-from sourcecode.weather_records_reader import WeatherRecordsReader
+from .weather_records_reader import WeatherRecordsReader
 
 
 class WeatherRecordsCalculation:
@@ -68,15 +69,12 @@ class WeatherRecordsCalculation:
             if weather_day_info['Mean Humidity'] != "":
                 total_mean_humidity += int(weather_day_info['Mean Humidity'])
             
-        length = len(weather_records)
-        self.calculate_average(total_max_temp, total_min_temp, total_mean_humidity, length)
+        record_length = len(weather_records)
+        self.calculate_average(total_max_temp, total_min_temp, total_mean_humidity, record_length)
 
         return self.month_report
 
-    def calculate_average(
-            self, total_max_temp: int, total_min_temp: int, 
-            total_mean_humidity: int, length: int
-    ) -> None:
+    def calculate_average(self, total_max_temp: int, total_min_temp: int, total_mean_humidity: int, record_length: int) -> None:
         """
         Calculate average of maximum temperature, minimum temperature, and humidity.
 
@@ -86,9 +84,9 @@ class WeatherRecordsCalculation:
         :total_mean_humidity int: Total of all mean humidities.
         :length int: length of all weather records.
         """
-        self.month_report['avg_highest_temp'] = total_max_temp // length
-        self.month_report['avg_lowest_temp'] = total_min_temp // length
-        self.month_report['avg_mean_humidity'] = total_mean_humidity // length
+        self.month_report['avg_highest_temp'] = total_max_temp // record_length
+        self.month_report['avg_lowest_temp'] = total_min_temp // record_length
+        self.month_report['avg_mean_humidity'] = total_mean_humidity // record_length
 
     def max_humidity(self, weather_day_info: dict) -> None:
         """
@@ -106,7 +104,7 @@ class WeatherRecordsCalculation:
             self.year_report['humidity'] = humid
 
             weather_date = weather_day_info['PKT']
-            month, day = self.date(weather_date)
+            month, day = self.split_date(weather_date)
             self.year_report['humidity_date'] = month + " " + day
 
     def min_temperature(self, weather_day_info: dict) -> None:
@@ -125,7 +123,7 @@ class WeatherRecordsCalculation:
             self.year_report['lowest_temp'] = temperature
 
             weather_date = weather_day_info['PKT']            
-            month, day = self.date(weather_date)
+            month, day = self.split_date(weather_date)
             self.year_report['lowest_temp_date'] = month + " " + day
 
     def max_temperature(self, weather_day_info: dict) -> None:
@@ -144,10 +142,10 @@ class WeatherRecordsCalculation:
             self.year_report['highest_temp'] = temperature
 
             weather_date = weather_day_info['PKT']            
-            month, day = self.date(weather_date)
+            month, day = self.split_date(weather_date)
             self.year_report['highest_temp_date'] = month + " " + day
 
-    def date(self, weather_date: str) -> list[str, str]:
+    def split_date(self, weather_date: str) -> list[str, str]:
         """
         Seperates day and month from date.
 
@@ -157,7 +155,7 @@ class WeatherRecordsCalculation:
         @return
         :list[str, str]: month and day of weather record.
         """
-        month_number = int(weather_date.split('-')[1])
-        month = calendar.month_name[month_number]
-        day = weather_date.split('-')[2]
-        return [month, day]
+        date_format = "%Y-%m-%d"
+        date = datetime.strptime(weather_date, date_format)
+        month = calendar.month_name[date.month]
+        return [month, str(date.day)]

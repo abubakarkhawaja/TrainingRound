@@ -1,15 +1,22 @@
 import calendar
+from datetime import datetime
 
-from sourcecode.weather_records_calculation import WeatherRecordsCalculation
-from sourcecode.weather_records_reader import WeatherRecordsReader
+from .weather_records_calculation import WeatherRecordsCalculation
+from .weather_records_reader import WeatherRecordsReader
 
 BLUE_COLOR = "\033[;34;40m"
 RED_COLOR = "\033[;31;40m"
 WHITE_COLOR = "\033[;;40m"
 
 class WeatherReportsDisplay():
-    def __init__(self) -> None:
-        """Constructor for initializing reports"""
+    def __init__(self, path: str) -> None:
+        """
+        Constructor for initializing reports
+        
+        @params
+        :path str: Complete path of weatherfiles 
+        """
+        self.path = path
         self.year_report = {
             'highest_temp': float('-inf'),
             'highest_temp_date': "",
@@ -25,7 +32,7 @@ class WeatherReportsDisplay():
             'avg_mean_humidity': float('-inf'),
         }
 
-    def display_extreme_report_of_year(self, path: str, date: str) -> None:
+    def display_extreme_report_of_year(self, date: str) -> None:
         """
         Used for printing report
         
@@ -33,7 +40,7 @@ class WeatherReportsDisplay():
         :path str: Contains path to weather files directory.
         :date str: Date entered by user as command line argument.
         """
-        weather_files = WeatherRecordsReader.weather_files(date, path)    
+        weather_files = WeatherRecordsReader.weather_files(date, self.path)    
         
         if not weather_files:
             print('No Weather Date for these date.')
@@ -46,7 +53,7 @@ class WeatherReportsDisplay():
         print(f'Lowest: {self.year_report["lowest_temp"]}C on {self.year_report["lowest_temp_date"]}')
         print(f'Humidity: {self.year_report["humidity"]}% on {self.year_report["humidity_date"]}')
     
-    def display_average_report_of_month(self, path: str, date: str) -> None:
+    def display_average_report_of_month(self, date: str) -> None:
         """
         Used for priniting report
         
@@ -54,7 +61,7 @@ class WeatherReportsDisplay():
         :path str: Contains path to weather files directory.
         :date str: Date entered by user as command line argument.
         """
-        weather_file = WeatherRecordsReader.weather_files(date, path)    
+        weather_file = WeatherRecordsReader.weather_files(date, self.path)    
         
         if not weather_file:
             print('No such record found!')
@@ -67,7 +74,7 @@ class WeatherReportsDisplay():
         print(f'Lowest Average: {self.month_report["avg_lowest_temp"]}C')
         print(f'Average Mean Humidity: {self.month_report["avg_mean_humidity"]}%')
 
-    def display_report_bar(self, path: str, date: str) -> None:
+    def display_report_bar(self, date: str) -> None:
         """ 
         Prints bar for high and low temperature of each dates.
 
@@ -75,8 +82,7 @@ class WeatherReportsDisplay():
         :path str: Contains path to weather files directory.
         :date str: Date entered by user as command line argument.
         """
-        weather_file = WeatherRecordsReader.weather_files(date, path)    
-        
+        weather_file = WeatherRecordsReader.weather_files(date, self.path)    
         if not weather_file:
             print('No such record found')
             return 
@@ -92,7 +98,7 @@ class WeatherReportsDisplay():
             self.show_high_temperature(weather_day_info, weather_date)
             self.show_low_temperature(weather_day_info, weather_date)
 
-    def display_report_single_bar(self, path: str, date: str) -> None:
+    def display_report_single_bar(self, date: str) -> None:
         """
         displays reports of each day in month
         
@@ -100,7 +106,7 @@ class WeatherReportsDisplay():
         :path str: Contains path to weather files directory.
         :date str: Date entered by user as command line argument.
         """
-        weather_file = WeatherRecordsReader.weather_files(date, path)    
+        weather_file = WeatherRecordsReader.weather_files(date, self.path)    
         
         if not weather_file:
             print('No such record founnd')
@@ -186,14 +192,14 @@ class WeatherReportsDisplay():
         """
         return "".join(['+'] * size_of_bar)
     
-    def print_month_year(self, date: str) -> None:
+    def print_month_year(self, weather_date: str) -> None:
         """
         Print Month and Year
 
         @params
         :date str: Contains date 'Year/Month'
         """
-        month_number = int(date.split('/')[1])
-        month = calendar.month_name[month_number]
-        year = date.split('/')[0]
-        print(month, year)
+        date_format = "%Y/%m"
+        date = datetime.strptime(weather_date, date_format)
+        month = calendar.month_name[date.month]
+        print(month, str(date.year))

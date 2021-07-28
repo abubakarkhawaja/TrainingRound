@@ -1,6 +1,6 @@
-import calendar, csv
-
-from sourcecode.weather_records_parser import WeatherRecordsParser
+import calendar
+from csv import DictReader
+from datetime import datetime
 
 
 class WeatherRecordsReader:
@@ -42,12 +42,32 @@ class WeatherRecordsReader:
             raise FileNotFoundError('File not found')
         
         with open(path, 'r') as csv_file:
-            csv_reader = csv.DictReader(csv_file)
-            weather_records = WeatherRecordsParser.weather_records_parser(csv_reader)
+            csv_reader = DictReader(csv_file)
+            weather_records = WeatherRecordsReader.weather_records_parser(csv_reader)
             csv_file.flush()
         return weather_records
+    
+    def weather_records_parser(csv_reader: DictReader) -> dict:
+        """
+        Cleans and converts data to its appropriate datatype.
 
-def split_date(date: str) -> list[str, str]:
+        @params
+        :csv_reader DictReader: contains data gathered from weatherfile
+
+        @return
+        :dict: dictionary with column name as key and their values
+        """
+        weather_records = []
+        if not csv_reader:
+            print('Empty file')
+            return
+        
+        csv_reader.fieldnames = [str(field).strip() for field in csv_reader.fieldnames]
+        weather_records = list(csv_reader)
+        return weather_records
+
+
+def split_date(weather_date: str) -> list[str, str]:
     """
     Seperates day and month from date.
 
@@ -57,7 +77,7 @@ def split_date(date: str) -> list[str, str]:
     @return
     :list[str, str]: month and year of weather record.
     """
-    month_number = int(date.split('/')[1])
-    month = calendar.month_abbr[month_number]
-    year = date.split('/')[0]
-    return [month, year]
+    date_format = "%Y/%m"
+    date = datetime.strptime(weather_date, date_format)
+    month = calendar.month_abbr[date.month]
+    return [month, str(date.year)]

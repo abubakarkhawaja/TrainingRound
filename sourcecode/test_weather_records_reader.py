@@ -1,6 +1,6 @@
 import unittest
 
-from sourcecode.weather_records_reader import WeatherRecordsReader
+from .weather_records_reader import WeatherRecordsReader
 
 PATH = ['sourcecode/dummy_1998_Dec.txt']
 
