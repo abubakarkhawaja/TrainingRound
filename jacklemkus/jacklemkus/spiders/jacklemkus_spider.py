@@ -21,39 +21,30 @@ class ItemSpider(CrawlSpider):
 
     def parse_product_page(self, response):
         product_page_parser = ProductPageParser(response)
-        product_page_parser.fetch_product_info()
-        yield product_page_parser.product_info
+        yield product_page_parser.parse()
 
 class ProductPageParser:
     def __init__(self, response) -> None:
-        self.product_info = {}
         self.response = response
 
-    def fetch_product_info(self) -> None:
-        self.description_content = self.description_content()
-        self.gender = self.gender(self.description_content)
-        self.product_brand = self.product_brand(self.description_content)
-        self.skus_content = self.skus_content()
-
-        self.product_info = {
-                'retailer': 'jacklemkus',
-                'spider_name': "jacklemkus",
-                'retailer-sku': self.response.css('.sku::text').get(),
-                'name': self.response.css('.product-name h1::text').get(),
-                'gender': self.gender,
-                'url': self.response.url,
-                'decription': self.description_content,
-                'market': 'ZA',
-                'skus': self.skus_content,
-                'price': self.price_in_decimal(),
-                'catagory': [
-                    self.product_brand
-                ],
-                'image_urls': self.response.css('.span1 div a img::attr(src)').getall(),
-                'brand': self.product_brand,
-                'currency': 'ZAR',
-                'environment': 'production',
-        }
+    def parse(self) -> dict:
+        product_info = {}
+        product_info['retailer'] = 'jacklemkus'
+        product_info['spider_name'] = "jacklemkus"
+        product_info['retailer-sku'] = self.response.css('.sku::text').get()
+        product_info['name'] = self.response.css('.product-name h1::text').get()
+        product_info['gender'] = self.gender(self.description_content())
+        product_info['url'] = self.response.url
+        product_info['decription'] = self.description_content()
+        product_info['market'] = 'ZA'
+        product_info['skus'] = self.skus_content()
+        product_info['price'] = self.price_in_decimal()
+        product_info['catagory'] = [self.product_brand(self.description_content())]
+        product_info['image_urls'] = self.response.css('.span1 div a img::attr(src)').getall()
+        product_info['brand'] = self.product_brand(self.description_content())
+        product_info['currency'] = 'ZAR'
+        product_info['environment'] = 'production'
+        return product_info
 
     def product_brand(self, description_content: list) -> str:
         product_brand = 'n/a'
@@ -67,23 +58,25 @@ class ProductPageParser:
         if 'Gender' in description_content:
             gender_index = description_content.index('Gender') + 1
             gender = description_content[gender_index]
-            gender = gender.split(' ')[0]
-            gender = gender.lower()
+            gender = gender.split(' ')[0].lower()
             if gender.endswith('s'):
                 gender = gender[:-1]
         return gender
 
     def skus_content(self) -> list[dict]:
         skus = []
-        for sku in self.response.css('.list-size li '):
-            skus.append({
-                "currency": "ZAR",
-                "out_of_stock": False if self.response.css('#product_addtocart_form') else True,
-                "price": self.price_in_decimal(),
-                "sku_id": int(sku.css('button::attr(data-productid)').get()),
-                "size": sku.css('button::text').get().replace(" ","").strip('\n'),
-            })
+        for sku in self.response.css('.list-size li '):            
+            skus.append(self.parse_sku(sku))
         return skus
+
+    def parse_sku(self, sku):
+        sku_content = {}
+        sku_content["currency"] = "ZAR"
+        sku_content["out_of_stock"] = False if self.response.css('#product_addtocart_form') else True
+        sku_content["price"] = self.price_in_decimal()
+        sku_content["sku_id"] = int(sku.css('button::attr(data-productid)').get())
+        sku_content["size"] = sku.css('button::text').get().replace(" ","").strip('\n')
+        return sku_content
 
     def description_content(self) -> list:
         row = self.response.xpath('//*[@id="product-attribute-specs-table"]/tbody/tr')
@@ -105,7 +98,5 @@ class ProductPageParser:
         return description
 
     def price_in_decimal(self) -> float:
-        price = str(self.response.css('.price::text').get())
-        price_without_tag = price.strip('R')
-        price_without_tag = float(price_without_tag.replace(',', ''))
-        return price_without_tag
+        price = self.response.css('.price::text').re_first(r'R\s*(.*)')
+        return float(price.replace(',', ''))
