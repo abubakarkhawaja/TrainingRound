@@ -17,20 +17,18 @@ class WeatherReportsDisplay():
         :path str: Complete path of weatherfiles 
         """
         self.path = path
-        self.year_report = {
-            'highest_temp': float('-inf'),
-            'highest_temp_date': "",
-            'lowest_temp_date': "",
-            'lowest_temp': float('inf'),
-            'humidity': float('-inf'),
-            'humidity_date': "",
-        }
+        self.year_report = {}
+        self.year_report['highest_temp'] = float('-inf')
+        self.year_report['highest_temp_date'] = ""
+        self.year_report['lowest_temp_date'] = ""
+        self.year_report['lowest_temp'] = float('inf')
+        self.year_report['humidity'] = float('-inf')
+        self.year_report['humidity_date'] = ""
 
-        self.month_report = {
-            'avg_highest_temp': float('-inf'),
-            'avg_lowest_temp': float('inf'),
-            'avg_mean_humidity': float('-inf'),
-        }
+        self.month_report = {}
+        self.month_report['avg_highest_temp'] = float('-inf')
+        self.month_report['avg_lowest_temp'] = float('inf')
+        self.month_report['avg_mean_humidity'] = float('-inf')
 
     def display_extreme_report_of_year(self, date: str) -> None:
         """
@@ -40,11 +38,10 @@ class WeatherReportsDisplay():
         :path str: Contains path to weather files directory.
         :date str: Date entered by user as command line argument.
         """
-        weather_files = WeatherRecordsReader.weather_files(date, self.path)    
-        
+        weather_files = fetch_weather_files(date, self.path)    
         if not weather_files:
             print('No Weather Date for these date.')
-            return
+            return weather_files
 
         record_calculator = WeatherRecordsCalculation()
         self.year_report = record_calculator.calculate_year_record(weather_files)
@@ -61,11 +58,10 @@ class WeatherReportsDisplay():
         :path str: Contains path to weather files directory.
         :date str: Date entered by user as command line argument.
         """
-        weather_file = WeatherRecordsReader.weather_files(date, self.path)    
-        
+        weather_file = fetch_weather_files(date, self.path)    
         if not weather_file:
             print('No such record found!')
-            return
+            return weather_file
 
         record_calculator = WeatherRecordsCalculation()
         self.month_report = record_calculator.calculate_month_record(weather_file)
@@ -82,19 +78,18 @@ class WeatherReportsDisplay():
         :path str: Contains path to weather files directory.
         :date str: Date entered by user as command line argument.
         """
-        weather_file = WeatherRecordsReader.weather_files(date, self.path)    
+        weather_file = fetch_weather_files(date, self.path)    
         if not weather_file:
             print('No such record found')
-            return 
+            return weather_file
 
-        weather_records = WeatherRecordsReader.weather_info(weather_file)
-
-        self.print_month_year(date)
+        weather_records = WeatherRecordsReader.read_weather_info(weather_file)
+        print(split_date(date))
             
         for weather_day_info in weather_records:
-            if weather_day_info['PKT'] != "":
-                weather_date = weather_day_info['PKT'].split('-')[2]
-
+            if not weather_day_info['PKT']:
+                continue
+            weather_date = datetime.strptime(weather_day_info['PKT'], '%Y-%m-%d').day
             self.show_high_temperature(weather_day_info, weather_date)
             self.show_low_temperature(weather_day_info, weather_date)
 
@@ -106,29 +101,22 @@ class WeatherReportsDisplay():
         :path str: Contains path to weather files directory.
         :date str: Date entered by user as command line argument.
         """
-        weather_file = WeatherRecordsReader.weather_files(date, self.path)    
-        
+        weather_file = fetch_weather_files(date, self.path)    
         if not weather_file:
             print('No such record founnd')
-            return
+            return weather_file
+        
+        weather_records = WeatherRecordsReader.read_weather_info(weather_file)
+        print(split_date(date))
 
-        weather_records = WeatherRecordsReader.weather_info(weather_file)
-
-        self.print_month_year(date)
-            
         for weather_day_info in weather_records:
-            if weather_day_info['PKT'] != "":
-                weather_date = weather_day_info['PKT'].split('-')[2]
-                
-            if (weather_day_info['Max TemperatureC'] == "" or 
-            weather_day_info['Min TemperatureC'] == ""):
+            if not weather_day_info['PKT']:
                 continue
-
-            high_temp = int(weather_day_info['Max TemperatureC'])
+            weather_date = datetime.strptime(weather_day_info['PKT'], '%Y-%m-%d').day   
+            high_temp = int(weather_day_info['Max TemperatureC'] or '0')
             high_bar = self.create_bar(high_temp)
-            low_temp = int(weather_day_info['Min TemperatureC'])
+            low_temp = int(weather_day_info['Min TemperatureC'] or '0')
             low_bar = self.create_bar(low_temp)
-                
             self.display(weather_date, high_temp, high_bar, low_temp, low_bar)
 
     def display(self, weather_date: str, high_temp: int, high_bar: str, low_temp: int, low_bar: str) -> None:
@@ -157,12 +145,8 @@ class WeatherReportsDisplay():
         :weather_day_info dict: Contains weather record of day.
         :weather_date str: Contains day of month.
         """
-        if weather_day_info['Min TemperatureC'] == "":
-            return
-
-        low_temp = int(weather_day_info['Min TemperatureC'])
+        low_temp = int(weather_day_info['Min TemperatureC'] or '0')
         low_bar = self.create_bar(low_temp)
-        
         print(weather_date, f"{BLUE_COLOR}{low_bar}", f"{WHITE_COLOR}{low_temp}C")
 
     def show_high_temperature(self, weather_day_info: dict, weather_date: str) -> None:
@@ -173,12 +157,8 @@ class WeatherReportsDisplay():
         :weather_day_info dict: Contains weather record of day.
         :weather_date str: Contains day of month.
         """
-        if weather_day_info['Max TemperatureC'] == "":
-            return
-
-        high_temp = int(weather_day_info['Max TemperatureC'])
+        high_temp = int(weather_day_info['Max TemperatureC'] or '0')
         high_bar = self.create_bar(high_temp)
-
         print(weather_date, f"{RED_COLOR}{high_bar}", f"{WHITE_COLOR}{high_temp}C")
 
     def create_bar(self, size_of_bar: int) -> str:
@@ -192,14 +172,39 @@ class WeatherReportsDisplay():
         """
         return "".join(['+'] * size_of_bar)
     
-    def print_month_year(self, weather_date: str) -> None:
+def fetch_weather_files(date: str, path: list) -> list[str]:
         """
-        Print Month and Year
+        Gets date and directory path. 
+        Base on these returns file names.
 
-        @params
-        :date str: Contains date 'Year/Month'
+        @params:
+        :date str: Date entered by user as command line argument
+        :path list: Contains list of paths to weather files directory
+
+        @return
+        :list: list of full path to weather files
         """
-        date_format = "%Y/%m"
-        date = datetime.strptime(weather_date, date_format)
-        month = calendar.month_name[date.month]
-        print(month, str(date.year))
+        weather_files = []
+        if '/' in date:
+            month, year = split_date(date)
+            weather_files = [file_path for file_path in path if year in file_path and month in file_path]
+            if not weather_files:
+                return weather_files
+            return weather_files[0]
+        
+        weather_files = [file_path for file_path in path if date in file_path]
+        return weather_files
+
+def split_date(weather_date: str) -> list[str, str]:
+    """
+    Seperates day and month from date.
+
+    @params
+    :date str: Date of weather record.
+
+    @return
+    :list[str, str]: month and year of weather record.
+    """
+    date = datetime.strptime(weather_date, "%Y/%m")
+    month = calendar.month_abbr[date.month]
+    return [month, str(date.year)]

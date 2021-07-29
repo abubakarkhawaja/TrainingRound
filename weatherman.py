@@ -3,36 +3,35 @@ import argparse, os
 from sourcecode.weather_reports_display import WeatherReportsDisplay
 
 
-class Driver:
-    def main(args: argparse.Namespace) -> None:
-        """        
-        Uses options given by command line argument.
-        And calls their respective function.
-        
-        @params
-        :args argparse.Namespace: contains sequence of arguments with values.
-        """
-        files_path = complete_paths(args.pathToDirectory)
-        
-        weather_report = WeatherReportsDisplay(files_path)
+def main(args: argparse.Namespace) -> None:
+    """        
+    Uses options given by command line argument.
+    And calls their respective function.
+    
+    @params
+    :args argparse.Namespace: contains sequence of arguments with values.
+    """
+    files_path = complete_paths(args.pathToDirectory)
+    
+    weather_report = WeatherReportsDisplay(files_path)
 
-        if args.e:
-            print('\nWeather Data by Year:')
-            weather_report.display_extreme_report_of_year(args.e)            
-            print('\n')
+    if args.e:
+        print('\nWeather Data by Year:')
+        weather_report.display_extreme_report_of_year(args.e)            
+        print('\n')
 
-        if args.a:
-            print('\nAverage Weather Data of Month:')
-            weather_report.display_average_report_of_month(args.a)
-            print('\n')
-        
-        if args.c:
-            print('\nDaily Weather Data with Seperate Bar')
-            weather_report.display_report_bar(args.c)
-        
-        if args.d:
-            print('\nDaily Weather Data with Single Bar')
-            weather_report.display_report_single_bar(args.d)
+    if args.a:
+        print('\nAverage Weather Data of Month:')
+        weather_report.display_average_report_of_month(args.a)
+        print('\n')
+    
+    if args.c:
+        print('\nDaily Weather Data with Seperate Bar')
+        weather_report.display_report_bar(args.c)
+    
+    if args.d:
+        print('\nDaily Weather Data with Single Bar')
+        weather_report.display_report_single_bar(args.d)
 
 def complete_paths(directory_path):
     try:
@@ -53,4 +52,4 @@ if __name__ == "__main__":
     parser.add_argument("-d", help="Weather Data by Month & Year with Bar Bonus. i.e. -d 2004/8")
     args = parser.parse_args()
 
-    Driver.main(args)
+    main(args)
