@@ -16,7 +16,7 @@ class ItemSpider(CrawlSpider):
         last_page = response.css("div.js-infinite-scroll-pager-data::attr(data-lastpage)").get()
         if last_page:
             for page_number in range(1, int(last_page)+1):
-                url = response.url + f"?p={page_number}"
+                url = response.urljoin(f"?p={page_number}")
                 yield response.follow(url, callback=self._parse)
 
     def parse(self, response) -> dict:
@@ -69,16 +69,13 @@ class ProductPageParser:
     def skus_content(self, response) -> list[dict]:
         skus = []
         for sku in  response.css('.list-size li '):            
-            skus.append(self.parse_sku(response, sku))
-        return skus
-
-    def parse_sku(self, response, sku):
-        sku_content = {}
-        sku_content["currency"] = "ZAR"
-        sku_content["out_of_stock"] = False if  response.css('#product_addtocart_form') else True
-        sku_content["price"] = self.product_price(response)
-        sku_content["sku_id"] = int(sku.css('button::attr(data-productid)').get())
-        sku_content["size"] = sku.css('button::text').get().replace(" ","").strip('\n')
+            sku_content = {}
+            sku_content["currency"] = "ZAR"
+            sku_content["out_of_stock"] = False if  response.css('#product_addtocart_form') else True
+            sku_content["price"] = self.product_price(response)
+            sku_content["sku_id"] = int(sku.css('button::attr(data-productid)').get())
+            sku_content["size"] = sku.css('button::text').get().replace(" ","").strip('\n')
+            skus.append(sku_content)
         return sku_content
 
     def raw_description(self, response) -> list:
