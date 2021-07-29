@@ -8,43 +8,38 @@ class ItemSpider(CrawlSpider):
     start_urls = ['https://www.jacklemkus.com']
 
     rules = [
-        Rule(LinkExtractor(allow=r'^https://www.jacklemkus.com/(\w+$|(\w+-\w+$))', restrict_css='#nav'), callback='parse'),
-        Rule(LinkExtractor(restrict_css='#products-grid'), callback='parse_product_page')
+        Rule(LinkExtractor(allow=r'^https://www.jacklemkus.com/(\w+$|(\w+-\w+$))', restrict_css='#nav'), callback='parse_pagination'),
+        Rule(LinkExtractor(restrict_css='#products-grid'), callback='parse')
     ]
 
-    def parse(self, response):
-        css = "div.js-infinite-scroll-pager-data::attr(data-lastpage)"
-        last_page = response.css(css).get()
-        if not last_page:
-            return None
-        for page_number in range(1, int(last_page)+1):
-            url = response.urljoin(f"?p={page_number}")
-            yield response.follow(url, callback=self._parse)
+    def parse_pagination(self, response):
+        last_page = response.css("div.js-infinite-scroll-pager-data::attr(data-lastpage)").get()
+        if last_page:
+            for page_number in range(1, int(last_page)+1):
+                url = response.url + f"?p={page_number}"
+                yield response.follow(url, callback=self._parse)
 
-    def parse_product_page(self, response):
-        product_page_parser = ProductPageParser()
-        yield product_page_parser.parse(response)
-
-class ProductPageParser:
     def parse(self, response) -> dict:
+        product_parser = ProductPageParser()
         product = {}
         product['retailer'] = 'jacklemkus'
         product['spider_name'] = "jacklemkus"
-        product['retailer-sku'] = self.retailer_sku(response)
-        product['name'] = self.product_name(response)
-        product['gender'] = self.gender(self.raw_description(response))
+        product['retailer-sku'] = product_parser.retailer_sku(response)
+        product['name'] = product_parser.product_name(response)
+        product['gender'] = product_parser.gender(product_parser.raw_description(response))
         product['url'] = response.url
-        product['decription'] = self.raw_description(response)
+        product['decription'] = product_parser.raw_description(response)
         product['market'] = 'ZA'
-        product['skus'] = self.skus_content(response)
-        product['price'] = self.price(response)
-        product['catagory'] = [self.product_brand(self.raw_description(response))]
-        product['image_urls'] = self.image_urls(response)
-        product['brand'] = self.product_brand(self.raw_description(response))
+        product['skus'] = product_parser.skus_content(response)
+        product['price'] = product_parser.product_price(response)
+        product['catagory'] = [product_parser.product_brand(product_parser.raw_description(response))]
+        product['image_urls'] = product_parser.image_urls(response)
+        product['brand'] = product_parser.product_brand(product_parser.raw_description(response))
         product['currency'] = 'ZAR'
         product['environment'] = 'production'
-        return product
+        yield product
 
+class ProductPageParser:
     def retailer_sku(self, response):
         return response.css('.sku::text').get()
 
@@ -74,13 +69,16 @@ class ProductPageParser:
     def skus_content(self, response) -> list[dict]:
         skus = []
         for sku in  response.css('.list-size li '):            
-            sku_content = {}
-            sku_content["currency"] = "ZAR"
-            sku_content["out_of_stock"] = False if  response.css('#product_addtocart_form') else True
-            sku_content["price"] = self.price(response)
-            sku_content["sku_id"] = int(sku.css('button::attr(data-productid)').get())
-            sku_content["size"] = sku.css('button::text').get().replace(" ","").strip('\n')
-            skus.append(sku_content)
+            skus.append(self.parse_sku(response, sku))
+        return skus
+
+    def parse_sku(self, response, sku):
+        sku_content = {}
+        sku_content["currency"] = "ZAR"
+        sku_content["out_of_stock"] = False if  response.css('#product_addtocart_form') else True
+        sku_content["price"] = self.product_price(response)
+        sku_content["sku_id"] = int(sku.css('button::attr(data-productid)').get())
+        sku_content["size"] = sku.css('button::text').get().replace(" ","").strip('\n')
         return sku_content
 
     def raw_description(self, response) -> list:
@@ -102,6 +100,6 @@ class ProductPageParser:
             description.append(column_data[i])
         return description
 
-    def price(self, response) -> float:
+    def product_price(self, response) -> float:
         price = response.css('.price::text').re_first(r'R\s*(.*)')
         return float(price.replace(',', ''))
