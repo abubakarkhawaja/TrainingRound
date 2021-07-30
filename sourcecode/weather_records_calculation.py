@@ -22,24 +22,45 @@ class WeatherRecordsCalculation:
             'avg_mean_humidity': float('-inf'),
         }
 
-    def calculate_year_record(self, weather_files: list) -> dict:
+    def calculate_year_record(self, weather_month_record: list) -> dict:
         """
         Calculates Highest Temperature, Lowest Temperature
         and Humidity.
 
         @params
-        :weather_files list: hold list of files path.
+        :weather_records list: list of weather record of specific month.
 
         @return
         :dict: contains report data
         """
-        for weather_file in weather_files:
-            for weather_day_info in WeatherRecordsReader.read_weather_info(weather_file):                
-                self.max_temperature(weather_day_info)
-                self.min_temperature(weather_day_info)
-                self.max_humidity(weather_day_info)
-
+        for weather_day_record in weather_month_record:              
+            self.compare_year_record(weather_day_record)
         return self.year_report
+    
+    def compare_year_record(self, weather_day_info: dict) -> None:
+        """
+        Assigns maximum humidity and its date in yearly report dictionary.
+
+        @params
+        :weather_day_info dict: Dictionary of Weather Record
+        """
+        temperature = int(weather_day_info['Max TemperatureC'] or '0')
+        
+        if temperature > self.year_report['highest_temp']:
+            self.year_report['highest_temp'] = temperature
+            self.save_date('highest_temp_date', weather_day_info['PKT'])
+
+        temperature = int(weather_day_info['Min TemperatureC'] or '0')
+
+        if temperature < self.year_report['lowest_temp']:
+            self.year_report['lowest_temp'] = temperature            
+            self.save_date('lowest_temp_date', weather_day_info['PKT'])
+
+        humid = int(weather_day_info['Max Humidity'] or '0')
+        
+        if humid > self.year_report['humidity']:
+            self.year_report['humidity'] = humid
+            self.save_date('humidity_date', weather_day_info['PKT'])
 
     def calculate_month_record(self, weather_file: str) -> dict:
         """
@@ -79,45 +100,6 @@ class WeatherRecordsCalculation:
         self.month_report['avg_highest_temp'] = total_max_temp // num_of_records
         self.month_report['avg_lowest_temp'] = total_min_temp // num_of_records
         self.month_report['avg_mean_humidity'] = total_mean_humidity // num_of_records
-
-    def max_humidity(self, weather_day_info: dict) -> None:
-        """
-        Assigns maximum humidity and its date in yearly report dictionary.
-
-        @params
-        :weather_day_info dict: Dictionary of Weather Record
-        """
-        humid = int(weather_day_info['Max Humidity'] or '0')
-
-        if humid > self.year_report['humidity']:
-            self.year_report['humidity'] = humid
-            self.save_date('humidity_date', weather_day_info['PKT'])
-
-    def min_temperature(self, weather_day_info: dict) -> None:
-        """
-        Assigns maximum humidity and its date in yearly report dictionary.
-
-        @params
-        :weather_day_info dict: Dictionary of Weather Record
-        """
-        temperature = int(weather_day_info['Min TemperatureC'] or '0')
-
-        if temperature < self.year_report['lowest_temp']:
-            self.year_report['lowest_temp'] = temperature            
-            self.save_date('lowest_temp_date', weather_day_info['PKT'])
-
-    def max_temperature(self, weather_day_info: dict) -> None:
-        """
-        Assigns maximum humidity and its date in yearly report dictionary.
-
-        @params
-        :weather_day_info dict: Dictionary of Weather Record
-        """
-        temperature = int(weather_day_info['Max TemperatureC'] or '0')
-
-        if temperature > self.year_report['highest_temp']:
-            self.year_report['highest_temp'] = temperature
-            self.save_date('highest_temp_date', weather_day_info['PKT'])
 
     def save_date(self, key, weather_date: str) -> list[str, str]:
         """
