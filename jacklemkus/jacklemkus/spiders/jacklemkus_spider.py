@@ -1,6 +1,8 @@
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 
+import w3lib.url
+
 class ProductPageParser:
     def parse(self, response) -> dict:
         product = {}
@@ -8,15 +10,15 @@ class ProductPageParser:
         product['spider_name'] = 'jacklemkus'
         product['retailer-sku'] = self.retailer_sku(response)
         product['name'] = self.product_name(response)
-        product['gender'] = self.gender(self.raw_description(response))
+        product['gender'] = self.gender(response)
         product['url'] = response.url
         product['decription'] = self.raw_description(response)
         product['market'] = 'ZA'
         product['skus'] = self.skus_content(response)
         product['price'] = self.product_price(response)
-        product['catagory'] = [self.product_brand(self.raw_description(response))]
+        product['catagory'] = [self.product_brand(response)]
         product['image_urls'] = self.image_urls(response)
-        product['brand'] = self.product_brand(self.raw_description(response))
+        product['brand'] = self.product_brand(response)
         product['currency'] = 'ZAR'
         product['environment'] = 'production'
         yield product
@@ -30,24 +32,21 @@ class ProductPageParser:
     def image_urls(self, response) -> list:
         return response.css('.span1 div a img::attr(src)').getall()
 
-    def product_brand(self, raw_description: list) -> str:
+    def product_brand(self, response) -> str:
+        raw_description = self.raw_description(response)
         product_brand = 'n/a'
         if 'Item Brand' not in raw_description:
             return product_brand
         brand_index = raw_description.index('Item Brand') + 1
-        product_brand = raw_description[brand_index]
-        return product_brand
+        return raw_description[brand_index]
 
-    def gender(self, raw_description: list) -> str:
-        gender = 'unisex'
-        if 'Gender' not in raw_description:
-            return gender
-        gender_index = raw_description.index('Gender') + 1
-        gender = raw_description[gender_index]
-        gender = gender.split(' ')[0].lower()
-        if gender.endswith('s'):
-            gender = gender[:-1]
-        return gender
+    def gender(self, response) -> str:
+        description = self.raw_description(response)
+        genders = ['Mens', 'Womens', 'Kids']
+        for gender in genders:
+            if gender in description:
+                return gender.lower().rstrip('s')
+        return 'unisex'
 
     def skus_content(self, response) -> list[dict]:
         skus = []
@@ -88,19 +87,18 @@ class ItemSpider(ProductPageParser, CrawlSpider):
     name = 'jacklemkus'
     allowed_domains = ['jacklemkus.com']
     start_urls = ['https://www.jacklemkus.com']
-    listing_css = '#nav'
-    products_css = '#products-grid'
-    single_depth_url = r'^https://www.jacklemkus.com/(\w+$|(\w+-\w+$))'
+    restricted_css = ['#nav > li.level0 > a.menu-link', '#products-grid']
 
     rules = [
-        Rule(LinkExtractor(allow=single_depth_url, restrict_css=listing_css), callback='parse_pagination'),
-        Rule(LinkExtractor(restrict_css=products_css), callback='parse')
+        Rule(LinkExtractor(restrict_css=restricted_css[0]), callback='parse_pagination'),
+        Rule(LinkExtractor(restrict_css=restricted_css[1]), callback='parse')
     ]
 
     def parse_pagination(self, response):
         last_page = response.css('div.js-infinite-scroll-pager-data::attr(data-lastpage)').get()
+        
         if not last_page:
             return None
         for page_number in range(1, int(last_page)+1):
-            url = response.urljoin(f'?p={page_number}')
+            url = w3lib.url.add_or_replace_parameter(response.url, 'p', page_number)
             yield response.follow(url, callback=self._parse)
