@@ -7,7 +7,7 @@ class ProductPageParser:
     def parse_product_page(self, response):
         product = {}
         product['retailer'] = 'jacklemkus'
-        product['spider_name'] = "jacklemkus"
+        product['spider_name'] = 'jacklemkus'
         product['retailer-sku'] = self.retailer_sku(response)
         product['name'] = self.product_name(response)
         product['gender'] = self.gender(response)
@@ -51,20 +51,20 @@ class ProductPageParser:
         skus = []
         sku_content = {}
         for sku in response.xpath('//*[@id="product-content"]/div/div[1]/ul/li[2]/div[2]/ul/li'):            
-            sku_content["currency"] = "EUR"
-            sku_content["out_of_stock"] = False if response.css('button#add-to-cart') else True
-            sku_content["price"] = self.product_price(response)
-            sku_content["sku_id"] = self.retailer_sku(response)
-            sku_content["size"] = sku.css('li > a > span::text').get()
+            sku_content['currency'] = 'EUR'
+            sku_content['out_of_stock'] = False if response.css('button#add-to-cart') else True
+            sku_content['price'] = self.product_price(response)
+            sku_content['sku_id'] = self.retailer_sku(response)
+            sku_content['size'] = sku.css('li > a > span::text').get()
             skus.append(sku_content)
 
         for sku in response.css('#va-loft option'):
-            sku_content["currency"] = "EUR"
-            sku_content["out_of_stock"] = False if response.css('button#add-to-cart') else True
-            sku_content["price"] = self.product_price(response)
-            sku_content["sku_id"] = self.retailer_sku(response)
-            sku_content["size"] = sku.css('option::text').get().strip('\n')
-            if sku_content["size"] != 'Select Loft':
+            sku_content['currency'] = 'EUR'
+            sku_content['out_of_stock'] = False if response.css('button#add-to-cart') else True
+            sku_content['price'] = self.product_price(response)
+            sku_content['sku_id'] = self.retailer_sku(response)
+            sku_content['size'] = sku.css('option::text').get().strip('\n')
+            if sku_content['size'] != 'Select Loft':
                 skus.append(sku_content)
         return skus
 
@@ -82,17 +82,19 @@ class ProductPageParser:
         if not price:
             price = response.css('div.product-sales-price span::text').re_first(r'\s*(.*) €')
         if ',' in price:
-            price = price.replace(',', '.')
+            price = price.split('.')[0].replace(',', '.')
         return float(price)
 
 class AmericanGolfSpider(CrawlSpider, ProductPageParser):
-    name = "americangolf"
+    name = 'americangolf'
     allowed_domains = ['americangolf.eu']
     start_urls = ['https://www.americangolf.eu']
-
+    header_css ='#header-navigation'
+    products_css = '#search-result-items'
+    
     rules = [
-        Rule(LinkExtractor(restrict_css='#header-navigation'), callback='parse'),
-        Rule(LinkExtractor(restrict_css='#search-result-items'), callback='parse_product_page', process_links='remove_variant')
+        Rule(LinkExtractor(restrict_css=header_css), callback='parse'),
+        Rule(LinkExtractor(restrict_css=products_css), callback='parse_product_page', process_links='remove_variant')
     ]
 
     def remove_variant(self, links):
@@ -108,4 +110,4 @@ class AmericanGolfSpider(CrawlSpider, ProductPageParser):
             return
         result_item_data = eval(result_item_data)
         productCount = result_item_data['productCount']
-        yield response.follow(f"{response.url}?start=0&sz={productCount}", callback=self._parse)
+        yield response.follow(f'{response.url}?start=0&sz={productCount}', callback=self._parse)
