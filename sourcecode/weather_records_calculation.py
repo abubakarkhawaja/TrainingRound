@@ -62,7 +62,7 @@ class WeatherRecordsCalculation:
             self.year_report['humidity'] = humid
             self.save_date('humidity_date', weather_day_info['PKT'])
 
-    def calculate_month_record(self, weather_file: str) -> dict:
+    def calculate_month_record(self, weather_days_record: list) -> dict:
         """
         Calculates Highest Temperature, Lowest Temperature
         and Humidity.
@@ -78,7 +78,7 @@ class WeatherRecordsCalculation:
         total_mean_humidity = 0
         num_of_records = 0
 
-        for weather_day_info in WeatherRecordsReader.read_weather_info(weather_file):
+        for weather_day_info in weather_days_record:
             total_max_temp += int(weather_day_info['Max TemperatureC'] or '0')
             total_min_temp += int(weather_day_info['Min TemperatureC'] or '0')                
             total_mean_humidity += int(weather_day_info['Mean Humidity'] or '0')
