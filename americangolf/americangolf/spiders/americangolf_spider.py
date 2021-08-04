@@ -6,53 +6,50 @@ from scrapy.linkextractors import LinkExtractor
 
 
 class ProductPageParser:
+    GENDERS = ['Ladies', 'Men', 'Junior', 'Unisex']
 
     def parse_product_page(self, response):
-        ProductPageParser.response = response
+        self.response = response
         product = {}
         yield product
 
     def retailer_sku(self):
-        return ProductPageParser.response.css('div.product-code > div.product-number > span::text').get()
+        return self.response.css('div.product-code > div.product-number > span::text').get()
 
     def product_name(self):
-        return ProductPageParser.response.css('h1.product-name ::text').get().strip('\n')
+        return self.response.css('h1.product-name ::text').get().strip('\n')
 
     def url(self):
-        return ProductPageParser.response.url
+        return self.response.url
 
     def image_urls(self) -> list:
-        return ProductPageParser.response.css('ul.carousel > li.carousel-tile > a::attr(href)').getall()
+        return self.response.css('ul.carousel > li.carousel-tile > a::attr(href)').getall()
 
     def product_brand(self) -> str:
-        product_brand = ProductPageParser.response.css('div.product-brand img::attr(alt)').get()
+        product_brand = self.response.css('div.product-brand img::attr(alt)').get()
         return product_brand
 
     def gender(self) -> str:
-        gender = 'unisex'
         name = self.product_name()
-        if 'Ladies' in name:
-            gender = 'women'
-        if 'Men' in name:
-            gender = 'men'
-        if 'Junior' in name:
-            gender = 'kids'
-        return gender
+        for gender in self.GENDERS:
+            if gender in name:
+                return gender.lower()
+        return 'unisex'
 
     def skus_content(self) -> list[dict]:
         skus = []
         sku_content = {}
-        for sku in ProductPageParser.response.css('div.product-variations > ul > li > div.value > ul.swatches > li.swatch ch'):          
+        for sku in self.response.css('div.product-variations > ul > li > div.value > ul.swatches > li.swatch ch'):          
             sku_content['currency'] = 'EUR'
-            sku_content['out_of_stock'] = True if str(ProductPageParser.response.css('div.out-of-stock::text').get()).strip() == 'Out of stock' else False
+            sku_content['out_of_stock'] = True if str(self.response.css('div.out-of-stock::text').get()).strip() == 'Out of stock' else False
             sku_content['price'] = self.product_price()
             sku_content['sku_id'] = self.retailer_sku()
             sku_content['size'] = sku.css('li > a > span::text').get()
             skus.append(sku_content)
 
-        for sku in ProductPageParser.response.css('#va-loft'):
+        for sku in self.response.css('#va-loft'):
             sku_content['currency'] = 'EUR'
-            sku_content['out_of_stock'] = True if str(ProductPageParser.response.css('div.out-of-stock::text').get()).strip() == 'Out of stock' else False
+            sku_content['out_of_stock'] = True if str(self.response.css('div.out-of-stock::text').get()).strip() == 'Out of stock' else False
             sku_content['price'] = self.product_price()
             sku_content['sku_id'] = self.retailer_sku()
             sku_content['size'] = sku.css('option::text').get().strip('\n').strip()
@@ -63,17 +60,17 @@ class ProductPageParser:
 
     def raw_description(self) -> list:
         description = []
-        description.append(' '.join(paragraph.strip('\n') for paragraph in ProductPageParser.response.css('.product-detaildescription > div.paragraph::text').getall()))
-        description.append(ProductPageParser.response.css('div.product-detaildescription > h4::text').get())
-        for feature in ProductPageParser.response.css('ul.bullet-list > li'):
+        description.append(' '.join(paragraph.strip('\n') for paragraph in self.response.css('.product-detaildescription > div.paragraph::text').getall()))
+        description.append(self.response.css('div.product-detaildescription > h4::text').get())
+        for feature in self.response.css('ul.bullet-list > li'):
             description.append(feature.css('li::text').get())
         
         return description
 
     def product_price(self) -> float:
-        price = ProductPageParser.response.css('div.product-sales-price::text').re_first(r'\s*(.*) €')
+        price = self.response.css('div.product-sales-price::text').re_first(r'\s*(.*) €')
         if not price:
-            price = ProductPageParser.response.css('div.product-sales-price span::text').re_first(r'\s*(.*) €')
+            price = self.response.css('div.product-sales-price span::text').re_first(r'\s*(.*) €')
         
         price = price.replace('.', '').replace(',','.')
         return float(price)
