@@ -17,7 +17,7 @@ class AmericangolfPipeline:
         self.connection = connector.connect(
             host = 'localhost',
             user = 'root',
-            passwd = 'losogen1',
+            passwd = 'rootison',
             database = 'americangolf'
         )
         self.current_cursor = self.connection.cursor()
@@ -47,6 +47,22 @@ class AmericangolfPipeline:
         """)
 
     def process_item(self, item, spider):
+        item['retailer'] = 'americangolf'
+        item['spider_name'] = 'americangolf'
+        item['retailer-sku'] = spider.retailer_sku()
+        item['name'] = spider.product_name()
+        item['gender'] = spider.gender()
+        item['url'] = spider.url()
+        item['description'] = spider.raw_description()
+        item['market'] = 'EUR'
+        item['skus'] = spider.skus_content()
+        item['brand'] = spider.product_brand()
+        item['price'] = spider.product_price()
+        item['image_urls'] = spider.image_urls()
+        item['catagory'] = [item['brand']]
+        item['currency'] = 'EUR'
+        item['environment'] = 'production'
+
         self.store(item)
         return item
     
