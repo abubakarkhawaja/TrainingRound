@@ -1,0 +1,6 @@
+<h2> Products </h2>
+<ul>
+{% for product in products %}
+    <li> {{ forloop.counter }} - {{product.name}} </li>
+{% endfor %}
+</ul>
