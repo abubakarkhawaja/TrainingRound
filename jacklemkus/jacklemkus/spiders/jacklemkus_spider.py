@@ -80,8 +80,8 @@ class ItemSpider(ProductPageParser, CrawlSpider):
     products_css = ['#products-grid']
 
     rules = [
-        Rule(LinkExtractor(restrict_css=listing_css[0]), callback='parse_pagination'),
-        Rule(LinkExtractor(restrict_css=products_css[0]), callback='parse')
+        Rule(LinkExtractor(restrict_css=listing_css), callback='parse_pagination'),
+        Rule(LinkExtractor(restrict_css=products_css), callback='parse')
     ]
 
     def parse_pagination(self, response):

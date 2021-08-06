@@ -16,13 +16,13 @@ class JacklemkusPipeline:
         item['name'] = spider.item_name()
         item['gender'] = spider.gender()
         item['url'] = spider.url()
-        item['decription'] = spider.raw_description()
+        item['description'] = spider.raw_description()
         item['market'] = 'ZA'
         item['skus'] = spider.skus_content()
         item['brand'] = spider.product_brand()
         item['price'] = spider.product_price()
         item['image_urls'] = spider.image_urls()
         item['catagory'] = [item['brand']]
-        item['currency'] = item['skus'][0].get('currency')
+        item['currency'] = 'ZAR'
         item['environment'] = 'production'
         return item
