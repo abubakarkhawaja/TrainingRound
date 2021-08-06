@@ -83,8 +83,8 @@ class AmericanGolfSpider(CrawlSpider, ProductPageParser):
     products_css = ['#search-result-items']
     
     rules = [
-        Rule(LinkExtractor(restrict_css=header_css[0]), callback='parse'),
-        Rule(LinkExtractor(restrict_css=products_css[0]), callback='parse_product_page', process_links='remove_variant')
+        Rule(LinkExtractor(restrict_css=header_css), callback='parse'),
+        Rule(LinkExtractor(restrict_css=products_css), callback='parse_product_page', process_links='remove_variant')
     ]
 
     def remove_variant(self, links):
