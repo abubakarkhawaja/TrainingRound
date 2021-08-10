@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.deletion import CASCADE
+
 
 class Products(models.Model):
     retailer = models.TextField(blank=True, null=True)
@@ -19,24 +19,33 @@ class Products(models.Model):
         return self.name
 
     class Meta:
-        db_table = 'products'
+        db_table = "products"
+
 
 class Description(models.Model):
-    retailer_sku = models.ForeignKey(Products, on_delete=models.CASCADE, null=True)
+    retailer_sku = models.ForeignKey(
+        Products, on_delete=models.CASCADE, db_column="retailer_sku", null=True
+    )
     description = models.TextField(blank=True, null=True)
 
     class Meta:
-        db_table = 'description'
+        db_table = "description"
 
-class ImageUrls(models.Model):
-    retailer_sku = models.ForeignKey(Products, on_delete=models.CASCADE, null=True)
+
+class Images(models.Model):
+    retailer_sku = models.ForeignKey(
+        Products, on_delete=models.CASCADE, db_column="retailer_sku", null=True
+    )
     image_url = models.TextField(blank=True, null=True)
 
     class Meta:
-        db_table = 'image_urls'
+        db_table = "images"
+
 
 class Skus(models.Model):
-    retailer_sku = models.ForeignKey(Products, on_delete=models.CASCADE, null=True)
+    retailer_sku = models.ForeignKey(
+        Products, on_delete=models.CASCADE, db_column="retailer_sku", null=True
+    )
     currency = models.TextField(blank=True, null=True)
     out_of_stock = models.IntegerField(blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
@@ -44,4 +53,4 @@ class Skus(models.Model):
     size = models.TextField(blank=True, null=True)
 
     class Meta:
-        db_table = 'skus'
+        db_table = "skus"

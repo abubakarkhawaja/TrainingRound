@@ -2,33 +2,22 @@
 {% load static %}
 
 {% block body%}
-
 <!-- news brand -->
     <div id="brand"  class="brand-bg">
         <h3>{{ catagory }}</h3>
+        <div class="row">
 
         {% for product in products %}
-            {% if product %}
-
-            <div class="row">
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 margintop">
-                    <div class="brand-box">
-                        {% for image in product.description_set.all %}
-                            hello
-                        {%endfor%}
-                        <!-- <i><img src="{{ iurl }}"/></i> -->
-                        <h4>Price $<span class="nolmal">{{product.price}}</span></h4>
-
-                    </div>
-                    <a class="buynow" href="#">Buy now</a>
+            {% if product %}            
+            <div class="col-3 margintop">
+                <div class="brand-box">
+                    <i><img src="{{product.images_set.all.0.image_url}}"/></i>
+                    <h4>Price $<span class="nolmal">{{product.price}}</span></h4>
                 </div>
+                <a class="buynow" href="{% url 'store:details' product.retailer_sku %}">Show Details</a>
             </div>
-
             {% endif %}
         {% endfor %}
+        </div>
     </div>
-
-<a class="seemore" href="#">See more</a>
-<!-- end news brand -->
-
 {% endblock%}
