@@ -1,0 +1,23 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block body%}
+<!-- news brand -->
+    <div id="brand"  class="brand-bg">
+        <h3>{{ catagory }}</h3>
+        <div class="row">
+
+        {% for product in products %}
+            {% if product %}            
+            <div class="col-3 margintop">
+                <div class="brand-box">
+                    <i><img src="{{product.images_set.all.0.image_url}}"/></i>
+                    <h4>Price $<span class="nolmal">{{product.price}}</span></h4>
+                </div>
+                <a class="buynow" href="{% url 'store:details' product.retailer_sku %}">Show Details</a>
+            </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+{% endblock%}
