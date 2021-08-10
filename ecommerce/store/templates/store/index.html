@@ -188,40 +188,19 @@
                     <div id="brand"  class="brand-bg">
                         <h3>New brands</h3>
                         <div class="row">
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 margintop">
+                            {% for product in products|slice:"2:6" %}
+                            <div class="col-3 margintop">
                                 <div class="brand-box">
-                                    <h5>Sale</h5>
-                                    <i><img src="{% static 'store/icon/p1.png' %}"/>
+                                    <i><img src="{{ product.images_set.all.0.image_url }}"/>
                                 </i>
-                                    <h4>Price $<span class="nolmal">100</span></h4>
+                                    <h4>Price $<span class="nolmal">{{product.price}}</span></h4>
 
                                 </div>
-                                <a class="buynow" href="#">Buy now</a>
+                                <a class="buynow" href="{% url 'store:details' product.retailer_sku %}">Buy now</a>
                             </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 margintop">
-                                <div class="brand-box">
-                                    <i><img src="{% static 'store/icon/p2.png' %}"/></i>
-                                    <h4>Price $<span class="nolmal">100</span></h4>
-                                </div>
-                                <a class="buynow" href="#">Buy now</a>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                                <div class="brand-box">
-                                    <i><img src="{% static 'store/icon/p1.png' %}"/></i>
-                                    <h4>Price $<span class="nolmal">100</span></h4>
-                                </div>
-                                <a class="buynow" href="#">Buy now</a>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                                <div class="brand-box">
-                                    <i><img src="{% static 'store/icon/p4.png' %}"/></i>
-                                    <h4>Price $<span class="nolmal">100</span></h4>
-                                </div>
-                                <a class="buynow" href="#">Buy now</a>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
-                    <a class="seemore" href="#">See more</a>
                     <!-- end news brand -->
     </div>
 
